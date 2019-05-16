@@ -1,0 +1,36 @@
+<ion-header>
+  <ion-toolbar color="secondary">
+    <ion-title>
+      Invoices
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+
+    <ion-fab-button color="secondary">
+      <ion-icon name="arrow-dropup"></ion-icon>
+    </ion-fab-button>
+
+      <ion-fab-list side="top">
+
+        <!--  1.Export in JSON  2.Product List 3.Create New Invoice  -->
+        <ion-fab-button (click)="exportDbInJSON()">
+          <ion-icon name="download"></ion-icon>
+        </ion-fab-button>
+        <ion-label>Export in JSON</ion-label>
+
+        <ion-fab-button (click)="loadProductList()">
+          <ion-icon name="list"></ion-icon>
+        </ion-fab-button>
+        <ion-label>Product List</ion-label>
+        
+        <ion-fab-button (click)="createNewInvoice()">
+          <ion-icon name="create"></ion-icon>
+        </ion-fab-button>
+        <ion-label>Create New Invoice</ion-label>
+          
+      </ion-fab-list>
+  </ion-fab>
+</ion-content>

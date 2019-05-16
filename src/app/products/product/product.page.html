@@ -1,0 +1,48 @@
+<ion-header>
+  <ion-toolbar color="secondary">
+    <ion-buttons slot="start">
+      <ion-back-button mode="md" defaultHref="products"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Product Info</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+
+  <ion-item margin-top>
+    <ion-grid>
+        <ion-row>
+            <ion-col text-start><strong>Name: </strong></ion-col>
+            <ion-col text-end>{{ product.name }}</ion-col>
+          </ion-row>
+    </ion-grid>
+  </ion-item>
+
+  <ion-item>
+    <ion-grid>
+        <ion-row>
+            <ion-col text-start><strong>Product ID: </strong></ion-col>
+            <ion-col text-end>{{ product.id }}</ion-col>
+          </ion-row>
+    </ion-grid>
+  </ion-item>
+
+  <ion-item>
+    <ion-grid>
+        <ion-row>
+            <ion-col text-start><strong>Price: </strong></ion-col>
+            <ion-col text-end>{{ product.price }} Rs./Unit</ion-col>
+          </ion-row>
+    </ion-grid>
+  </ion-item>
+
+  <ion-item>
+    <ion-grid>
+        <ion-row>
+            <ion-col text-start><strong>Tax Applied: </strong></ion-col>
+            <ion-col text-end>{{ product.tax }}%</ion-col>
+          </ion-row>
+    </ion-grid>
+  </ion-item>
+
+</ion-content>

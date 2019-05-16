@@ -1,0 +1,36 @@
+<ion-header>
+  <ion-toolbar color="secondary">
+    <ion-buttons slot="start">
+      <ion-back-button mode="md" defaultHref="products"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Add Product</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+  <form [formGroup]="addProductForm" (ngSubmit)="onAddProduct()">
+
+      <mat-form-field class="full-width">
+          <input matInput type="text" placeholder="Product Name" formControlName="name" required>
+          <mat-error *ngFor="let validation of form_validation_messages.name">
+            <mat-error class="error-message" *ngIf="addProductForm.get('name').hasError(validation.type) && (addProductForm.get('name').dirty || addProductForm.get('name').touched)">{{validation.message}}</mat-error>
+          </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="full-width">
+          <input matInput type="text" placeholder="Price" formControlName="price" required>
+          <mat-error *ngFor="let validation of form_validation_messages.price">
+            <mat-error class="error-message" *ngIf="addProductForm.get('price').hasError(validation.type) && (addProductForm.get('price').dirty || addProductForm.get('price').touched)">{{validation.message}}</mat-error>
+          </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="full-width">
+          <input matInput type="text" placeholder="Tax" formControlName="tax" required>
+          <mat-error *ngFor="let validation of form_validation_messages.tax">
+            <mat-error class="error-message" *ngIf="addProductForm.get('tax').hasError(validation.type) && (addProductForm.get('tax').dirty || addProductForm.get('tax').touched)">{{validation.message}}</mat-error>
+          </mat-error>
+      </mat-form-field>
+
+    <ion-button color="secondary" margin-top expand="block" type="submit" [disabled]="addProductForm.invalid">Add Product Info</ion-button>
+  </form>
+</ion-content>

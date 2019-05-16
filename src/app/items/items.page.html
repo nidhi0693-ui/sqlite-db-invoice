@@ -1,0 +1,76 @@
+<ion-header>
+  <ion-toolbar color="secondary">
+    <ion-buttons slot="start">
+      <ion-back-button mode="md" defaultHref="invoices"></ion-back-button>
+    </ion-buttons>
+      <ion-buttons slot="end">
+        <ion-button mode="md" (click)="moreOptions($event)">
+          <ion-icon slot="icon-only" name="more"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+    <ion-title>Invoice Creation</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-item lines="full">
+    <ion-grid>
+        <ion-row>
+            <ion-col size="4" text-start><strong><small>Product Name</small></strong></ion-col>
+            <ion-col size="2" text-end><strong><small>Qty.</small></strong></ion-col>
+            <ion-col size="2" text-end><strong><small>Price (Rs.)</small></strong></ion-col>
+            <ion-col size="2" text-end><strong><small>Tax (%)</small></strong></ion-col>
+            <ion-col size="2" text-end><strong><small>Total (Rs.)</small></strong></ion-col>
+          </ion-row>
+    </ion-grid>
+  </ion-item>
+
+  <ion-list>
+
+    <ion-item-sliding *ngFor="let item of _dataFromProducts; let i=index;">
+
+      <ion-item mode="md" lines="full">
+        <ion-grid>
+            <ion-row>
+                <ion-col size="4" text-start>{{item.product_name}}</ion-col>
+                <ion-col size="2" text-end>
+                    <ion-input type="number" [(ngModel)]="item.quantity" (ionChange)="getQuantity($event, item, i)" debounce="200"></ion-input>
+                </ion-col>
+                <ion-col size="2" text-end>{{item.product_price}}</ion-col>
+                <ion-col size="2" text-end>{{item.product_tax}}</ion-col>
+                <ion-col size="2" text-end>{{item.total}}</ion-col>
+              </ion-row>
+        </ion-grid>
+      </ion-item>
+
+      <ion-item-options side="end">
+        <ion-item-option (click)="removeFromList()">
+          <ion-icon slot="icon-only" name="trash"></ion-icon>
+        </ion-item-option>
+      </ion-item-options>
+
+    </ion-item-sliding>
+
+  </ion-list>
+
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-grid>
+      <ion-row>
+        <ion-col size="7" text-start>
+          <strong>Total Ammount: </strong>
+        </ion-col>
+        <ion-col size="5" text-end>
+          <strong>{{ billedAmt }}</strong>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <ion-button color="secondary" expand="block" (click)="generateNewInvoice()">Generate Invoice</ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-toolbar>
+</ion-footer>

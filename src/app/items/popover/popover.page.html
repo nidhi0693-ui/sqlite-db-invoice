@@ -1,0 +1,19 @@
+<ion-header>
+  <ion-toolbar color="secondary">
+    <ion-title>More</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content no-padding no-margin>
+  <ion-list>
+        <ion-item color="light" (click)="addMoreProduct()" lines="full">
+          <ion-icon name="add" color="secondary"></ion-icon>
+          <ion-label>Add More Product</ion-label>
+        </ion-item>
+    
+        <ion-item color="light" (click)="dataInItemTable()" lines="full">
+          <ion-icon name="download" color="secondary"></ion-icon>
+          <ion-label>Export In JSON</ion-label>
+        </ion-item>
+    </ion-list>
+</ion-content>

@@ -1,0 +1,16 @@
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+.full-width {
+    width: 100%;
+}
+
+.error-msg {
+    color: red;
+    display: block;
+    position: absolute;
+    font-size: 75%;
+    bottom: -2em;
+}
