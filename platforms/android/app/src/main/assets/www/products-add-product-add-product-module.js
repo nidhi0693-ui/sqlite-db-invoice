@@ -110,20 +110,18 @@ var AddProductPage = /** @class */ (function () {
         this.form_validation_messages = {
             'name': [
                 { type: 'required', message: 'Name is required' },
-                { type: 'pattern', message: 'Name contain only alphabets' },
-                { type: 'minlength', message: 'Name must be at least 3 characters long' },
-                { type: 'maxlength', message: 'Name cannot be more than 10 characters' }
+                { type: 'pattern', message: 'Only alphabet allowed. Minimum 3 letters.' },
+                { type: 'minlength', message: 'Minimum 3 letters.' }
             ],
             'price': [
                 { type: 'required', message: 'Price is required' },
-                { type: 'pattern', message: 'Price contain only numaric value' },
-                { type: 'minlength', message: 'Price must be at least 1 characters long' },
-                { type: 'maxlength', message: 'Price cannot be more than 4 characters' }
+                { type: 'pattern', message: 'Only numbers are allowed.' },
+                { type: 'minlength', message: 'Price cannot be empty.' }
             ],
             'tax': [
                 { type: 'required', message: 'Tax is required' },
-                { type: 'pattern', message: 'Tax contain only numaric value' },
-                { type: 'minlength', message: 'Tax must be at least 1 characters long' },
+                { type: 'pattern', message: 'Only numbers are allowed.' },
+                { type: 'minlength', message: 'Tax cannot be empty.' },
                 { type: 'maxlength', message: 'Tax cannot be more than 3 characters' }
             ]
         };
@@ -133,20 +131,17 @@ var AddProductPage = /** @class */ (function () {
             name: ['', _angular_forms__WEBPACK_IMPORTED_MODULE_2__["Validators"].compose([
                     _angular_forms__WEBPACK_IMPORTED_MODULE_2__["Validators"].required,
                     _angular_forms__WEBPACK_IMPORTED_MODULE_2__["Validators"].pattern('[a-zA-Z][a-zA-Z ]+[a-zA-Z]$'),
-                    _angular_forms__WEBPACK_IMPORTED_MODULE_2__["Validators"].minLength(3),
-                    _angular_forms__WEBPACK_IMPORTED_MODULE_2__["Validators"].maxLength(10)
+                    _angular_forms__WEBPACK_IMPORTED_MODULE_2__["Validators"].minLength(3)
                 ])],
             price: ['', _angular_forms__WEBPACK_IMPORTED_MODULE_2__["Validators"].compose([
                     _angular_forms__WEBPACK_IMPORTED_MODULE_2__["Validators"].required,
                     _angular_forms__WEBPACK_IMPORTED_MODULE_2__["Validators"].pattern('^([0-9]*[1-9][0-9]*(\.[0-9]+)?|[0]+\.[0-9]*[1-9][0-9]*)$'),
-                    _angular_forms__WEBPACK_IMPORTED_MODULE_2__["Validators"].minLength(1),
-                    _angular_forms__WEBPACK_IMPORTED_MODULE_2__["Validators"].maxLength(4)
+                    _angular_forms__WEBPACK_IMPORTED_MODULE_2__["Validators"].minLength(1)
                 ])],
             tax: ['', _angular_forms__WEBPACK_IMPORTED_MODULE_2__["Validators"].compose([
                     _angular_forms__WEBPACK_IMPORTED_MODULE_2__["Validators"].required,
                     _angular_forms__WEBPACK_IMPORTED_MODULE_2__["Validators"].pattern('^([0-9]*[1-9][0-9]*(\.[0-9]+)?|[0]+\.[0-9]*[1-9][0-9]*)$'),
-                    _angular_forms__WEBPACK_IMPORTED_MODULE_2__["Validators"].minLength(1),
-                    _angular_forms__WEBPACK_IMPORTED_MODULE_2__["Validators"].maxLength(3)
+                    _angular_forms__WEBPACK_IMPORTED_MODULE_2__["Validators"].minLength(1)
                 ])]
         });
     };
@@ -162,23 +157,12 @@ var AddProductPage = /** @class */ (function () {
                         formData = this.addProductForm.value;
                         formData.id = this.generateRandomID();
                         return [4 /*yield*/, this._DB.createProduct(formData.id, formData.name, parseFloat(formData.price), parseFloat(formData.tax))
-                                .then(function () { return tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"](_this, void 0, void 0, function () {
-                                var _this = this;
-                                return tslib__WEBPACK_IMPORTED_MODULE_0__["__generator"](this, function (_a) {
-                                    switch (_a.label) {
-                                        case 0: return [4 /*yield*/, this._DB.readAllProduct()
-                                                .then(function () {
-                                                _this._DB.exportAsJSON()
-                                                    .then(function (data) { return console.log("Exported in JSON: ", data); });
-                                            })];
-                                        case 1:
-                                            _a.sent();
-                                            this.addProductForm.reset();
-                                            this._router.navigate(['/products']);
-                                            return [2 /*return*/];
-                                    }
-                                });
-                            }); }).catch(function (e) { return console.log(e); })];
+                                .then(function () {
+                                _this.addProductForm.reset();
+                                _this._router.navigate(['/products']);
+                                _this._DB.exportAsJSON()
+                                    .then(function (data) { return console.log("Exported in JSON: ", data); });
+                            }).catch(function (e) { return console.log(e); })];
                     case 1:
                         _a.sent();
                         _a.label = 2;

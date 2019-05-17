@@ -58,7 +58,7 @@ var ItemsPageModule = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<ion-header>\n  <ion-toolbar color=\"secondary\">\n    <ion-buttons slot=\"start\">\n      <ion-back-button mode=\"md\" defaultHref=\"invoices\"></ion-back-button>\n    </ion-buttons>\n      <ion-buttons slot=\"end\">\n        <ion-button mode=\"md\" (click)=\"moreOptions($event)\">\n          <ion-icon slot=\"icon-only\" name=\"more\"></ion-icon>\n        </ion-button>\n      </ion-buttons>\n    <ion-title>Invoice Creation</ion-title>\n  </ion-toolbar>\n</ion-header>\n\n<ion-content>\n  <ion-item lines=\"full\">\n    <ion-grid>\n        <ion-row>\n            <ion-col size=\"4\" text-start><strong><small>Product Name</small></strong></ion-col>\n            <ion-col size=\"2\" text-end><strong><small>Qty.</small></strong></ion-col>\n            <ion-col size=\"2\" text-end><strong><small>Price (Rs.)</small></strong></ion-col>\n            <ion-col size=\"2\" text-end><strong><small>Tax (%)</small></strong></ion-col>\n            <ion-col size=\"2\" text-end><strong><small>Total (Rs.)</small></strong></ion-col>\n          </ion-row>\n    </ion-grid>\n  </ion-item>\n\n  <ion-list>\n\n    <ion-item-sliding *ngFor=\"let item of _dataFromProducts; let i=index;\">\n\n      <ion-item mode=\"md\" lines=\"full\">\n        <ion-grid>\n            <ion-row>\n                <ion-col size=\"4\" text-start>{{item.product_name}}</ion-col>\n                <ion-col size=\"2\" text-end>\n                    <ion-input type=\"number\" [(ngModel)]=\"item.quantity\" (ionChange)=\"getQuantity($event, item, i)\" debounce=\"200\"></ion-input>\n                </ion-col>\n                <ion-col size=\"2\" text-end>{{item.product_price}}</ion-col>\n                <ion-col size=\"2\" text-end>{{item.product_tax}}</ion-col>\n                <ion-col size=\"2\" text-end>{{item.total}}</ion-col>\n              </ion-row>\n        </ion-grid>\n      </ion-item>\n\n      <ion-item-options side=\"end\">\n        <ion-item-option (click)=\"removeFromList()\">\n          <ion-icon slot=\"icon-only\" name=\"trash\"></ion-icon>\n        </ion-item-option>\n      </ion-item-options>\n\n    </ion-item-sliding>\n\n  </ion-list>\n\n</ion-content>\n\n<ion-footer>\n  <ion-toolbar>\n    <ion-grid>\n      <ion-row>\n        <ion-col size=\"7\" text-start>\n          <strong>Total Ammount: </strong>\n        </ion-col>\n        <ion-col size=\"5\" text-end>\n          <strong>{{ billedAmt }}</strong>\n        </ion-col>\n      </ion-row>\n      <ion-row>\n        <ion-col>\n          <ion-button color=\"secondary\" expand=\"block\" (click)=\"generateNewInvoice()\">Generate Invoice</ion-button>\n        </ion-col>\n      </ion-row>\n    </ion-grid>\n  </ion-toolbar>\n</ion-footer>"
+module.exports = "<ion-header>\n  <ion-toolbar color=\"secondary\">\n    <ion-buttons slot=\"start\">\n      <ion-back-button mode=\"md\" defaultHref=\"invoices\"></ion-back-button>\n    </ion-buttons>\n      <ion-buttons slot=\"end\">\n        <ion-button mode=\"md\" (click)=\"moreOptions($event)\">\n          <ion-icon slot=\"icon-only\" name=\"more\"></ion-icon>\n        </ion-button>\n      </ion-buttons>\n    <ion-title>Invoice Creation</ion-title>\n  </ion-toolbar>\n</ion-header>\n\n<ion-content>\n  <ion-item lines=\"full\">\n    <ion-grid>\n        <ion-row>\n            <ion-col size=\"4\" text-start><strong><small>Product Name</small></strong></ion-col>\n            <ion-col size=\"2\" text-end><strong><small>Qty.</small></strong></ion-col>\n            <ion-col size=\"2\" text-end><strong><small>Price (Rs.)</small></strong></ion-col>\n            <ion-col size=\"2\" text-end><strong><small>Tax (%)</small></strong></ion-col>\n            <ion-col size=\"2\" text-end><strong><small>Total (Rs.)</small></strong></ion-col>\n          </ion-row>\n    </ion-grid>\n  </ion-item>\n\n  <ion-list>\n\n    <ion-item-sliding *ngFor=\"let item of _dataRecived; let i=index;\">\n\n      <ion-item mode=\"md\" lines=\"full\">\n        <ion-grid>\n            <ion-row>\n                <ion-col size=\"4\" text-start>{{item.name}}</ion-col>\n                <ion-col size=\"2\" text-end>\n                    <ion-input type=\"number\" [(ngModel)]=\"item.quantity\" (ionChange)=\"getQuantity($event, item, i)\" debounce=\"200\"></ion-input>\n                </ion-col>\n                <ion-col size=\"2\" text-end>{{item.price}}</ion-col>\n                <ion-col size=\"2\" text-end>{{item.tax}}</ion-col>\n                <ion-col size=\"2\" text-end>{{item.total}}</ion-col>\n              </ion-row>\n        </ion-grid>\n      </ion-item>\n\n      <ion-item-options side=\"end\">\n        <ion-item-option (click)=\"removeFromList()\">\n          <ion-icon slot=\"icon-only\" name=\"trash\"></ion-icon>\n        </ion-item-option>\n      </ion-item-options>\n\n    </ion-item-sliding>\n\n  </ion-list>\n\n</ion-content>\n\n<ion-footer>\n  <ion-toolbar>\n    <ion-grid>\n      <ion-row>\n        <ion-col size=\"7\" text-start>\n          <strong>Total Ammount: </strong>\n        </ion-col>\n        <ion-col size=\"5\" text-end>\n          <strong>{{ billedAmt }}</strong>\n        </ion-col>\n      </ion-row>\n      <ion-row>\n        <ion-col>\n          <ion-button color=\"secondary\" expand=\"block\" (click)=\"generateNewInvoice()\">Generate Invoice</ion-button>\n        </ion-col>\n      </ion-row>\n    </ion-grid>\n  </ion-toolbar>\n</ion-footer>"
 
 /***/ }),
 
@@ -102,18 +102,26 @@ var ItemsPage = /** @class */ (function () {
         this._route = _route;
         this._router = _router;
         this._PC = _PC;
-        this._dataFromProducts = null;
+        this._dataRecived = null;
         this.enteredQuantities = [];
         this.subTotal = [];
         this._route.queryParams.subscribe(function (params) {
             if (_this._router.getCurrentNavigation().extras.state) {
-                _this._dataFromProducts = _this._router.getCurrentNavigation().extras.state.data;
+                _this._dataRecived = _this._router.getCurrentNavigation().extras.state.data;
+                console.log("On Invoice Creation Page, data recieved " + _this._dataRecived);
             }
         });
         this.billedAmt = 0;
     }
     ItemsPage.prototype.ngOnInit = function () {
-        this.totalNoOfItems = this._dataFromProducts.length;
+        if (this._dataRecived.length === undefined) {
+            this.totalNoOfItems = 0;
+            console.log("Total No. of Items = " + this.totalNoOfItems);
+        }
+        else {
+            this.totalNoOfItems = this._dataRecived.length;
+            console.log("Total No. of Items = " + this.totalNoOfItems);
+        }
     };
     // Create PopOver to get more options for user
     ItemsPage.prototype.moreOptions = function (ev) {
@@ -123,7 +131,7 @@ var ItemsPage = /** @class */ (function () {
                 switch (_a.label) {
                     case 0: return [4 /*yield*/, this._PC.create({
                             component: _popover_popover_page__WEBPACK_IMPORTED_MODULE_5__["PopoverPage"],
-                            componentProps: { dataToSend: this._dataFromProducts },
+                            componentProps: { dataToSend: this._dataRecived },
                             event: ev,
                             animated: true,
                             translucent: true,
@@ -148,6 +156,9 @@ var ItemsPage = /** @class */ (function () {
                     this.enteredQuantities[ind] = 0;
                 }
             }
+            console.log("1. Quantity entered " + this.enteredQuantities[ind] + " and type of quantity = " + typeof (this.enteredQuantities[ind]));
+            console.log("2. Product price is " + itemObj.product_price + " and type of quantity = " + typeof (itemObj.product_price));
+            console.log("3. Product tax is " + itemObj.product_tax + " and type of quantity = " + typeof (itemObj.product_tax));
             itemObj.total = this.enteredQuantities[ind] * (itemObj.product_price + ((itemObj.product_tax / 100) * itemObj.product_price));
             this.subTotal[ind] = itemObj.total;
         }

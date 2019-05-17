@@ -16,10 +16,10 @@
   <ion-item lines="full">
     <ion-grid>
         <ion-row>
-            <ion-col size="5" text-start><strong><small>Product Name</small></strong></ion-col>
-            <ion-col size="4" text-end><strong><small>Price (Rs.)</small></strong></ion-col>
-            <ion-col size="3" text-end><strong><small>Tax (%)</small></strong></ion-col>
-            <!-- <ion-col size="2" text-end><strong><small>Select</small></strong></ion-col> -->
+            <ion-col size="4" text-start><strong><small>Product Name</small></strong></ion-col>
+            <ion-col size="3" text-end><strong><small>Price (Rs.)</small></strong></ion-col>
+            <ion-col size="2" text-end><strong><small>Tax (%)</small></strong></ion-col>
+            <ion-col size="3" text-end *ngIf="dataRecieved.pageName === 'Create Invoice'"><strong><small>Select</small></strong></ion-col>
           </ion-row>
     </ion-grid>
   </ion-item>
@@ -30,13 +30,13 @@
         <ion-label>
           <ion-grid>
               <ion-row>
-                  <ion-col size="6" text-start>{{ prod.name }}</ion-col>
-                  <ion-col size="4" text-end>{{ prod.price }}</ion-col>
+                  <ion-col size="5" text-start>{{ prod.name }}</ion-col>
+                  <ion-col size="3" text-end>{{ prod.price }}</ion-col>
                   <ion-col size="2" text-end>{{ prod.tax }}%</ion-col>
               </ion-row>
           </ion-grid>
         </ion-label>
-        <ion-checkbox slot="end" mode="md" (ionChange)="selectProduct($event, prod)"></ion-checkbox>
+        <ion-checkbox slot="end" mode="md" (ionChange)="selectProduct($event, prod)" *ngIf="dataRecieved.pageName === 'Create Invoice'"></ion-checkbox>
       </ion-item>
       <ion-item-options side="end">
         <ion-item-option color="warning" (click)="showProductInfo(prod.id)">
@@ -54,7 +54,7 @@
 
 </ion-content>
 
-<ion-footer>
+<ion-footer *ngIf="dataRecieved.pageName === 'Create Invoice'">
   <ion-toolbar>
     <ion-button (click)="markedData()" color="secondary" expand="block" position="bottom">Update Invoice</ion-button>
   </ion-toolbar>

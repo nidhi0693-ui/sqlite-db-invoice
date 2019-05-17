@@ -11,7 +11,7 @@ import { PopoverPage } from './popover/popover.page';
 })
 export class ItemsPage implements OnInit {
 
-  private _dataFromProducts = null
+  private _dataRecived = null
   totalNoOfItems: number
   billedAmt: number
   quantity: number
@@ -26,21 +26,27 @@ export class ItemsPage implements OnInit {
   ) {
     this._route.queryParams.subscribe(params => {
       if (this._router.getCurrentNavigation().extras.state) {
-        this._dataFromProducts = this._router.getCurrentNavigation().extras.state.data
+        this._dataRecived = this._router.getCurrentNavigation().extras.state.data
+        console.log(`On Invoice Creation Page, data recieved ${this._dataRecived}`)
       }
     })
     this.billedAmt = 0
   }
 
   ngOnInit() {
-    this.totalNoOfItems = this._dataFromProducts.length
+    if(this._dataRecived.length === undefined) {
+      this.totalNoOfItems = 0  
+      console.log(`Total No. of Items = ${this.totalNoOfItems}`)
+    } else {
+      this.totalNoOfItems = this._dataRecived.length
+      console.log(`Total No. of Items = ${this.totalNoOfItems}`)    }
   }
 
   // Create PopOver to get more options for user
   async moreOptions(ev: any) {
     const popOver = await this._PC.create({
       component: PopoverPage,
-      componentProps: { dataToSend: this._dataFromProducts },
+      componentProps: { dataToSend: this._dataRecived },
       event: ev,
       animated: true,
       translucent: true,
@@ -60,6 +66,10 @@ export class ItemsPage implements OnInit {
           this.enteredQuantities[ind] = 0
         }
       }
+      console.log(`1. Quantity entered ${this.enteredQuantities[ind]} and type of quantity = ${typeof(this.enteredQuantities[ind])}`)
+      console.log(`2. Product price is ${itemObj.product_price} and type of quantity = ${typeof(itemObj.product_price)}`)
+      console.log(`3. Product tax is ${itemObj.product_tax} and type of quantity = ${typeof(itemObj.product_tax)}`)
+
       itemObj.total = this.enteredQuantities[ind] * (itemObj.product_price + ((itemObj.product_tax / 100) * itemObj.product_price))
       this.subTotal[ind] = itemObj.total
     }

@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { DatabaseProviderService } from '../services/database-provider.service';
-import { Router, NavigationExtras } from '@angular/router';
+import { Router, NavigationExtras, ActivatedRoute } from '@angular/router';
 import { Product } from '../DATA_MODELS/product';
 import { ToastController, IonItemSliding } from '@ionic/angular';
 
@@ -12,14 +12,23 @@ import { ToastController, IonItemSliding } from '@ionic/angular';
 export class ProductsPage implements OnInit {
 
   @ViewChild('slidingItem') slideItem: IonItemSliding;
-  private _products = [];
-  private _selectedProduct = [];
+  private _products = []
+  private _selectedProduct = []
+  private dataRecieved = null
   
   constructor(
     private _DB: DatabaseProviderService,
+    private _route: ActivatedRoute,
     private _router: Router, 
     private _TC: ToastController
-  ) { }
+  ) { 
+    this._route.queryParams.subscribe(params => {
+      if(this._router.getCurrentNavigation().extras.state) {
+        this.dataRecieved = this._router.getCurrentNavigation().extras.state.data
+        console.log(`Data recived from ${this.dataRecieved.pageName} Page and content is ${this.dataRecieved.content}`)
+      }
+    })
+  }
 
   ngOnInit() {
     this.loadProducts();
@@ -59,8 +68,11 @@ export class ProductsPage implements OnInit {
         data: this._selectedProduct
       }
     }
+    console.log(`On products page dataSendToItemsPage = ${this._selectedProduct}`)
     this._router.navigate(['/items'], dataToSend)
   }
+
+
 
   //<-------Start CRUD operation on DB ------------------>
   // Add New Product into DB
@@ -97,8 +109,6 @@ export class ProductsPage implements OnInit {
     await this.slideItem.close();
     await this.toastForDelete(product_id);
   }
-  //<-------END of CRUD operation on DB ------------------>
-
 
   // Perform Delete Operation Asynchronouslly
   async toastForDelete(id) {
@@ -140,4 +150,6 @@ export class ProductsPage implements OnInit {
     });
     deleteIt.present();
   }
+  //<-------END of CRUD operation on DB ------------------>
+
 }

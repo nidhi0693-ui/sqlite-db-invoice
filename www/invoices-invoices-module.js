@@ -58,7 +58,7 @@ var InvoicesPageModule = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<ion-header>\n  <ion-toolbar color=\"secondary\">\n    <ion-title>\n      Invoices\n    </ion-title>\n  </ion-toolbar>\n</ion-header>\n\n<ion-content padding>\n  <ion-fab vertical=\"bottom\" horizontal=\"end\" slot=\"fixed\">\n\n    <ion-fab-button color=\"secondary\">\n      <ion-icon name=\"arrow-dropup\"></ion-icon>\n    </ion-fab-button>\n\n      <ion-fab-list side=\"top\">\n\n        <!--  1.Export in JSON  2.Product List 3.Create New Invoice  -->\n        <ion-fab-button (click)=\"exportDbInJSON()\">\n          <ion-icon name=\"download\"></ion-icon>\n        </ion-fab-button>\n        <ion-label>Export in JSON</ion-label>\n\n        <ion-fab-button (click)=\"loadProductList()\">\n          <ion-icon name=\"list\"></ion-icon>\n        </ion-fab-button>\n        <ion-label>Product List</ion-label>\n        \n        <ion-fab-button (click)=\"createNewInvoice()\">\n          <ion-icon name=\"create\"></ion-icon>\n        </ion-fab-button>\n        <ion-label>Create New Invoice</ion-label>\n          \n      </ion-fab-list>\n  </ion-fab>\n</ion-content>"
+module.exports = "<ion-header>\n  <ion-toolbar color=\"secondary\">\n    <ion-title>\n      Invoices\n    </ion-title>\n  </ion-toolbar>\n</ion-header>\n\n<ion-content padding>\n  <!-- Present Invoices -->\n  <ion-list>\n    <ion-item lines=\"full\" mode=\"md\" *ngFor=\"let invoice of invoices\">\n      <ion-grid>\n        <ion-row>\n          <ion-col size=\"1\" text-start><small><strong>ID:</strong></small></ion-col>\n          <ion-col size=\"2\" text-end>{{ invoice.id }}</ion-col>\n          <ion-col size=\"4\" text-start><small><strong>Created at:</strong></small></ion-col>\n          <ion-col size=\"5\" text-end>{{ invoice.created_at }}</ion-col>\n        </ion-row>\n        <ion-row>\n          <ion-col size=\"6\" text-start><small><strong>Total Invoice Value:</strong></small></ion-col>\n          <ion-col size=\"6\" text-end><small><strong>{{ invoice.billed_amt }}</strong></small></ion-col>\n        </ion-row>\n      </ion-grid>\n    </ion-item>\n  </ion-list>\n\n  <!-- Ionic Fab Button to provide more options for user -->\n  <ion-fab vertical=\"bottom\" horizontal=\"end\" slot=\"fixed\">\n\n    <ion-fab-button color=\"secondary\">\n      <ion-icon name=\"arrow-dropup\"></ion-icon>\n    </ion-fab-button>\n\n      <ion-fab-list side=\"top\">\n\n        <!--  1.Export in JSON  2.Product List 3.Create New Invoice  -->\n        <ion-fab-button (click)=\"exportDbInJSON()\">\n          <ion-icon name=\"download\"></ion-icon>\n        </ion-fab-button>\n        <ion-label>Export in JSON</ion-label>\n\n        <ion-fab-button (click)=\"loadProductList()\">\n          <ion-icon name=\"list\"></ion-icon>\n        </ion-fab-button>\n        <ion-label>Product List</ion-label>\n        \n        <ion-fab-button (click)=\"createNewInvoice()\">\n          <ion-icon name=\"create\"></ion-icon>\n        </ion-fab-button>\n        <ion-label>Create New Invoice</ion-label>\n          \n      </ion-fab-list>\n  </ion-fab>\n  \n</ion-content>"
 
 /***/ }),
 
@@ -97,12 +97,26 @@ var InvoicesPage = /** @class */ (function () {
         this._route = _route;
         this._router = _router;
         this._DB = _DB;
+        this.invoices = [];
         this._invoiceAmt = null;
+        // localData: Date
+        this.invoice = {};
+        // Generate Flag to control the data passed over navigation
+        this.invoicesFlag = {
+            pageName: "Invoices",
+            content: "Hey! I am from Invoices Page"
+        };
         this._route.queryParams.subscribe(function (params) {
             if (_this._router.getCurrentNavigation().extras.state) {
                 _this._invoiceAmt = _this._router.getCurrentNavigation().extras.state.data;
                 if (_this._invoiceAmt) {
-                    console.log("Invoice amount from items: ", _this._invoiceAmt);
+                    console.log("1. Invoice amount from Create Invoice Page: ", _this._invoiceAmt);
+                    _this.invoice.id = _this.generateRandomID();
+                    _this.invoice.created_at = new Date().toLocaleString();
+                    _this.invoice.billed_amt = _this._invoiceAmt;
+                    console.log("2. Invoice property with its updated Data: ", _this.invoice);
+                    _this.invoices.push(_this.invoice);
+                    console.log("3. So Now the complete Invoices is: ", _this.invoices);
                 }
                 else {
                     console.log("Invoice amount not generated");
@@ -110,15 +124,32 @@ var InvoicesPage = /** @class */ (function () {
             }
         });
     }
-    InvoicesPage.prototype.ngOnInit = function () { };
+    InvoicesPage.prototype.ngOnInit = function () {
+    };
     InvoicesPage.prototype.createNewInvoice = function () {
-        this._router.navigate(['/items']);
+        var dataToSend = {
+            state: {
+                data: this.invoicesFlag
+            }
+        };
+        this._router.navigate(['/items'], dataToSend);
     };
     InvoicesPage.prototype.loadProductList = function () {
-        this._router.navigate(['/products']);
+        var dataToSend = {
+            state: {
+                data: this.invoicesFlag
+            }
+        };
+        this._router.navigate(['/products'], dataToSend);
     };
     InvoicesPage.prototype.exportDbInJSON = function () {
         this._DB.exportAsJSON();
+    };
+    // Generate A Unique ID
+    InvoicesPage.prototype.generateRandomID = function () {
+        var data = Math.random();
+        var id = data.toString(16).substring(2, 8);
+        return id;
     };
     InvoicesPage = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({

@@ -15,7 +15,6 @@ export class PopoverPage implements OnInit {
 
   constructor(
     private _DB: DatabaseProviderService,
-    private _route: ActivatedRoute,
     private _navParams: NavParams,
     private _router: Router, 
     private _PC: PopoverController
@@ -28,8 +27,17 @@ export class PopoverPage implements OnInit {
 
   // Add more products to generate invoice 
   addMoreProduct() {
+    let fromItems = {
+        pageName: "Create Invoice",
+        content: "Hey! I am from Create Invoice Page"
+    }
+    let dataToSend: NavigationExtras = {
+      state: {
+        data: fromItems
+      }
+    }
     this._PC.dismiss()
-    this._router.navigate(['/products'])
+    this._router.navigate(['/products'], dataToSend)
   }
 
   // Show all item available in items table

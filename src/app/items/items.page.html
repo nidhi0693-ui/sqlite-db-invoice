@@ -27,17 +27,17 @@
 
   <ion-list>
 
-    <ion-item-sliding *ngFor="let item of _dataFromProducts; let i=index;">
+    <ion-item-sliding *ngFor="let item of _dataRecived; let i=index;">
 
       <ion-item mode="md" lines="full">
         <ion-grid>
             <ion-row>
-                <ion-col size="4" text-start>{{item.product_name}}</ion-col>
+                <ion-col size="4" text-start>{{item.name}}</ion-col>
                 <ion-col size="2" text-end>
                     <ion-input type="number" [(ngModel)]="item.quantity" (ionChange)="getQuantity($event, item, i)" debounce="200"></ion-input>
                 </ion-col>
-                <ion-col size="2" text-end>{{item.product_price}}</ion-col>
-                <ion-col size="2" text-end>{{item.product_tax}}</ion-col>
+                <ion-col size="2" text-end>{{item.price}}</ion-col>
+                <ion-col size="2" text-end>{{item.tax}}</ion-col>
                 <ion-col size="2" text-end>{{item.total}}</ion-col>
               </ion-row>
         </ion-grid>

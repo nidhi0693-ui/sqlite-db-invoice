@@ -1158,7 +1158,7 @@ var PopoverPageModule = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<ion-header>\n  <ion-toolbar color=\"secondary\">\n    <ion-title>More</ion-title>\n  </ion-toolbar>\n</ion-header>\n\n<ion-content no-padding no-margin>\n  <ion-list>\n        <ion-item color=\"light\" (click)=\"addMoreProduct()\" lines=\"full\">\n          <ion-icon name=\"add\" color=\"secondary\"></ion-icon>\n          <ion-label>Add More Product</ion-label>\n        </ion-item>\n    \n        <ion-item color=\"light\" (click)=\"dataInItemTable()\" lines=\"full\">\n          <ion-icon name=\"download\" color=\"secondary\"></ion-icon>\n          <ion-label>Export In JSON</ion-label>\n        </ion-item>\n    </ion-list>\n</ion-content>\n"
+module.exports = "<ion-header>\n  <ion-toolbar color=\"secondary\">\n    <ion-title text-center>More</ion-title>\n  </ion-toolbar>\n</ion-header>\n\n<ion-content no-padding no-margin>\n  <ion-list>\n        <ion-item color=\"light\" (click)=\"addMoreProduct()\" lines=\"full\">\n          <ion-icon name=\"add\" color=\"secondary\"></ion-icon>\n          <ion-label>Add More Product</ion-label>\n        </ion-item>\n    \n        <ion-item color=\"light\" (click)=\"dataInItemTable()\" lines=\"full\">\n          <ion-icon name=\"download\" color=\"secondary\"></ion-icon>\n          <ion-label>Export In JSON</ion-label>\n        </ion-item>\n    </ion-list>\n</ion-content>\n"
 
 /***/ }),
 
@@ -1194,9 +1194,8 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var PopoverPage = /** @class */ (function () {
-    function PopoverPage(_DB, _route, _navParams, _router, _PC) {
+    function PopoverPage(_DB, _navParams, _router, _PC) {
         this._DB = _DB;
-        this._route = _route;
         this._navParams = _navParams;
         this._router = _router;
         this._PC = _PC;
@@ -1207,8 +1206,17 @@ var PopoverPage = /** @class */ (function () {
     };
     // Add more products to generate invoice 
     PopoverPage.prototype.addMoreProduct = function () {
+        var fromItems = {
+            pageName: "Create Invoice",
+            content: "Hey! I am from Create Invoice Page"
+        };
+        var dataToSend = {
+            state: {
+                data: fromItems
+            }
+        };
         this._PC.dismiss();
-        this._router.navigate(['/products']);
+        this._router.navigate(['/products'], dataToSend);
     };
     // Show all item available in items table
     PopoverPage.prototype.dataInItemTable = function () {
@@ -1243,7 +1251,6 @@ var PopoverPage = /** @class */ (function () {
             styles: [__webpack_require__(/*! ./popover.page.scss */ "./src/app/items/popover/popover.page.scss")]
         }),
         tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [src_app_services_database_provider_service__WEBPACK_IMPORTED_MODULE_4__["DatabaseProviderService"],
-            _angular_router__WEBPACK_IMPORTED_MODULE_2__["ActivatedRoute"],
             _ionic_angular__WEBPACK_IMPORTED_MODULE_3__["NavParams"],
             _angular_router__WEBPACK_IMPORTED_MODULE_2__["Router"],
             _ionic_angular__WEBPACK_IMPORTED_MODULE_3__["PopoverController"]])
@@ -1301,7 +1308,7 @@ var DatabaseProviderService = /** @class */ (function () {
         return this._DB.executeSql("CREATE TABLE IF NOT EXISTS products (\n            id TEXT PRIMARY KEY,\n            name TEXT,\n            price REAL,\n            tax REAL)", [])
             .then(function () {
             console.log('Products Table Created !');
-            return _this._DB.executeSql("CREATE TABLE IF NOT EXISTS items (\n                  id TEXT PRIMARY KEY,\n                  product_id TEXT,\n                  product_name TEXT,\n                  product_quantity INTEGER,\n                  product_price REAL,\n                  product_tax REAL)", []);
+            return _this._DB.executeSql("CREATE TABLE IF NOT EXISTS items (\n                  id TEXT,\n                  product_id TEXT PRIMARY KEY,\n                  product_name TEXT,\n                  product_quantity INTEGER,\n                  product_price REAL,\n                  product_tax REAL)", []);
         }).then(function () {
             console.log('Items Table Created !');
             return _this._DB.executeSql("CREATE TABLE IF NOT EXISTS invoices (\n                     id TEXT,\n                     created_at TEXT,\n                     billed_amt REAL)", []);
@@ -1328,10 +1335,14 @@ var DatabaseProviderService = /** @class */ (function () {
     };
     // ====================== PRODUCT CRUD SECTION STARTS FROM HERE ==========================
     DatabaseProviderService.prototype.createProduct = function (id, name, price, tax) {
+        var _this = this;
         // id should be in text format and unique and also generated automatically
         var productData = [id, name, price, tax];
         return this._DB.executeSql("INSERT INTO products (\n            id, \n            name, \n            price, \n            tax \n            ) VALUES (?, ?, ?, ?)", productData)
-            .then(function () { return console.log("One product is added in products table with these data ", productData); })
+            .then(function () {
+            console.log("One product is added in products table with these data ", productData);
+            _this.readAllProduct();
+        })
             .catch(function (e) { return console.log(e); });
     };
     DatabaseProviderService.prototype.getProductInfo = function (product_id) {
@@ -1368,15 +1379,23 @@ var DatabaseProviderService = /** @class */ (function () {
         }).catch(function (e) { return console.log(e); });
     };
     DatabaseProviderService.prototype.updateProductInfo = function (prod) {
+        var _this = this;
         var updatedProductData = [prod.name, prod.price, prod.tax];
         console.log("Data to Update from Database Service: ", prod);
-        return this._DB.executeSql("UPDATE products \n            SET \n               name=?, \n               price=?, \n               tax=? \n            WHERE id=" + prod.id, updatedProductData)
-            .then(function () { return console.log("Product info get updated successfully with these data ", updatedProductData); })
+        return this._DB.executeSql("UPDATE products \n            SET \n               name = ?, \n               price = ?, \n               tax = ? \n            WHERE id = " + prod.id, updatedProductData)
+            .then(function () {
+            console.log("Product info get updated successfully with these data ", updatedProductData);
+            _this.readAllProduct();
+        })
             .catch(function (e) { return console.log(e); });
     };
     DatabaseProviderService.prototype.deleteProduct = function (product_id) {
+        var _this = this;
         return this._DB.executeSql("DELETE \n            FROM products \n            WHERE id=?", [product_id])
-            .then(function () { return console.log('Product Deleted Successfully with product_id ', product_id); })
+            .then(function () {
+            console.log('Product Deleted Successfully with product_id ', product_id);
+            _this.readAllProduct();
+        })
             .catch(function (e) { return console.log(e); });
     };
     // ===================== PRODUCT CRUD SECTION ENDS HERE =======================

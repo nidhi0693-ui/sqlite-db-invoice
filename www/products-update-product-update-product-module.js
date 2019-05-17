@@ -179,22 +179,11 @@ var UpdateProductPage = /** @class */ (function () {
                         };
                         console.log("Nav exits with this data: ", formData);
                         return [4 /*yield*/, this._DB.updateProductInfo(formData)
-                                .then(function () { return tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"](_this, void 0, void 0, function () {
-                                var _this = this;
-                                return tslib__WEBPACK_IMPORTED_MODULE_0__["__generator"](this, function (_a) {
-                                    switch (_a.label) {
-                                        case 0: return [4 /*yield*/, this._DB.readAllProduct()
-                                                .then(function () {
-                                                _this._DB.exportAsJSON()
-                                                    .then(function (data) { return console.log('Exported in JSON', data); });
-                                            })];
-                                        case 1:
-                                            _a.sent();
-                                            this._router.navigate(['/products']);
-                                            return [2 /*return*/];
-                                    }
-                                });
-                            }); })];
+                                .then(function () {
+                                _this._router.navigate(['/products']);
+                                _this._DB.exportAsJSON()
+                                    .then(function (data) { return console.log('Exported in JSON', data); });
+                            })];
                     case 1:
                         _a.sent();
                         _a.label = 2;

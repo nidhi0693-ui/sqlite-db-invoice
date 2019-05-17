@@ -48,8 +48,8 @@ export class DatabaseProviderService {
             console.log('Products Table Created !');
             return this._DB.executeSql(
                `CREATE TABLE IF NOT EXISTS items (
-                  id TEXT PRIMARY KEY,
-                  product_id TEXT,
+                  id TEXT,
+                  product_id TEXT PRIMARY KEY,
                   product_name TEXT,
                   product_quantity INTEGER,
                   product_price REAL,
