@@ -49,7 +49,7 @@ export class DatabaseProviderService {
             return this._DB.executeSql(
                `CREATE TABLE IF NOT EXISTS items (
                   id TEXT,
-                  product_id TEXT PRIMARY KEY,
+                  product_id TEXT,
                   product_name TEXT,
                   product_quantity INTEGER,
                   product_price REAL,
@@ -194,7 +194,7 @@ export class DatabaseProviderService {
       // id should be in text format and unique and also generated automatically
       let itemData = [id, product_id, product_name, product_quantity, product_price, product_tax]
       return this._DB.executeSql(
-         `INSERT INTO item (
+         `INSERT INTO items (
             id, 
             product_id, 
             product_name, 
@@ -286,15 +286,15 @@ export class DatabaseProviderService {
 
 
    // ==================== INVOICE CRUD SECTION STARTS FROM HERE ====================
-   createInvoice(id: string, created_at: string, billed_amt: number) {
+   createInvoice(inv: Invoice) {
       // id should be in text format and unique and also generated automatically
-      let invoiceData = [id, created_at, billed_amt]
+      let invoiceData = [inv.id, inv.created_at, inv.billed_amt]
       return this._DB.executeSql(
          `INSERT INTO invoices (
             id, 
             created_at, 
             billed_amt
-            ) VALUES (?, ?, ?, ?)`, invoiceData)
+            ) VALUES (?, ?, ?)`, invoiceData)
          .then(() => console.log("One invoice is Inserted in invoices table with these data ", invoiceData))
          .catch(e => console.log(e))
    }
@@ -305,7 +305,7 @@ export class DatabaseProviderService {
             id, 
             billed_amt, 
             created_at  
-         FROM invoice`, [])
+         FROM invoices`, [])
          .then((data) => {
             let invoices = [];
             if (data.rows.length > 0) {

@@ -66,7 +66,7 @@ export class UpdateProductPage implements OnInit {
       ])],
       tax: [this._recievedData.tax, Validators.compose([
         Validators.required,
-        Validators.pattern('^([0-9]*[1-9][0-9]*(\.[0-9]+)?|[0]+\.[0-9]*[1-9][0-9]*)$'),
+        Validators.pattern('^(100(?:\.?)?|\d?\d(?:\.\d\d?)?)$'),
         Validators.minLength(1),
         Validators.maxLength(3)
       ])]

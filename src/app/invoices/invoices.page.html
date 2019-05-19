@@ -9,7 +9,7 @@
 <ion-content padding>
   <!-- Present Invoices -->
   <ion-list>
-    <ion-item lines="full" mode="md" *ngFor="let invoice of invoices">
+    <ion-item lines="full" mode="md" *ngFor="let invoice of invoices" (click)="showInvoice($event)">
       <ion-grid>
         <ion-row>
           <ion-col size="4" text-start><small>ID:</small></ion-col>

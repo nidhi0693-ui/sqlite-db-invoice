@@ -11,6 +11,7 @@ const routes: Routes = [
   { path: 'add-product', loadChildren: './products/add-product/add-product.module#AddProductPageModule' },
   { path: 'update-product/:id', loadChildren: './products/update-product/update-product.module#UpdateProductPageModule' },
   { path: 'popover', loadChildren: './items/popover/popover.module#PopoverPageModule' },
+  { path: 'invoice', loadChildren: './invoices/invoice/invoice.module#InvoicePageModule' },
 ];
 
 @NgModule({

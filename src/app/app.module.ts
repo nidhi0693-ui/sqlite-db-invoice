@@ -24,6 +24,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 
+import { OrderModule } from 'ngx-order-pipe';
+
 
 @NgModule({
   declarations: [AppComponent],
@@ -41,6 +43,7 @@ import { MatInputModule } from '@angular/material/input';
     BrowserAnimationsModule, 
     MatFormFieldModule,
     MatInputModule, 
+    OrderModule 
   ],
 
   providers: [

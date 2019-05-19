@@ -58,7 +58,7 @@ var ItemsPageModule = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<ion-header>\n  <ion-toolbar color=\"secondary\">\n    <ion-buttons slot=\"start\">\n      <ion-back-button mode=\"md\" defaultHref=\"invoices\"></ion-back-button>\n    </ion-buttons>\n      <ion-buttons slot=\"end\">\n        <ion-button mode=\"md\" (click)=\"moreOptions($event)\">\n          <ion-icon slot=\"icon-only\" name=\"more\"></ion-icon>\n        </ion-button>\n      </ion-buttons>\n    <ion-title>Invoice Creation</ion-title>\n  </ion-toolbar>\n</ion-header>\n\n<ion-content>\n  <ion-item lines=\"full\">\n    <ion-grid>\n        <ion-row>\n            <ion-col size=\"4\" text-start><strong><small>Product Name</small></strong></ion-col>\n            <ion-col size=\"2\" text-end><strong><small>Qty.</small></strong></ion-col>\n            <ion-col size=\"2\" text-end><strong><small>Price (Rs.)</small></strong></ion-col>\n            <ion-col size=\"2\" text-end><strong><small>Tax (%)</small></strong></ion-col>\n            <ion-col size=\"2\" text-end><strong><small>Total (Rs.)</small></strong></ion-col>\n          </ion-row>\n    </ion-grid>\n  </ion-item>\n\n  <ion-list>\n\n    <ion-item-sliding *ngFor=\"let item of _dataRecived; let i=index;\">\n\n      <ion-item mode=\"md\" lines=\"full\">\n        <ion-grid>\n            <ion-row>\n                <ion-col size=\"4\" text-start>{{item.name}}</ion-col>\n                <ion-col size=\"2\" text-end>\n                    <ion-input type=\"number\" [(ngModel)]=\"item.quantity\" (ionChange)=\"getQuantity($event, item, i)\" debounce=\"200\"></ion-input>\n                </ion-col>\n                <ion-col size=\"2\" text-end>{{item.price}}</ion-col>\n                <ion-col size=\"2\" text-end>{{item.tax}}</ion-col>\n                <ion-col size=\"2\" text-end>{{item.total}}</ion-col>\n              </ion-row>\n        </ion-grid>\n      </ion-item>\n\n      <ion-item-options side=\"end\">\n        <ion-item-option (click)=\"removeFromList()\">\n          <ion-icon slot=\"icon-only\" name=\"trash\"></ion-icon>\n        </ion-item-option>\n      </ion-item-options>\n\n    </ion-item-sliding>\n\n  </ion-list>\n\n</ion-content>\n\n<ion-footer>\n  <ion-toolbar>\n    <ion-grid>\n      <ion-row>\n        <ion-col size=\"7\" text-start>\n          <strong>Total Ammount: </strong>\n        </ion-col>\n        <ion-col size=\"5\" text-end>\n          <strong>{{ billedAmt }}</strong>\n        </ion-col>\n      </ion-row>\n      <ion-row>\n        <ion-col>\n          <ion-button color=\"secondary\" expand=\"block\" (click)=\"generateNewInvoice()\">Generate Invoice</ion-button>\n        </ion-col>\n      </ion-row>\n    </ion-grid>\n  </ion-toolbar>\n</ion-footer>"
+module.exports = "<ion-header>\n  <ion-toolbar color=\"secondary\">\n    <ion-buttons slot=\"start\">\n      <ion-back-button mode=\"md\" defaultHref=\"invoices\"></ion-back-button>\n    </ion-buttons>\n      <ion-buttons slot=\"end\">\n        <ion-button mode=\"md\" (click)=\"moreOptions($event)\">\n          <ion-icon slot=\"icon-only\" name=\"more\"></ion-icon>\n        </ion-button>\n      </ion-buttons>\n    <ion-title>Invoice Creation</ion-title>\n  </ion-toolbar>\n</ion-header>\n\n<ion-content>\n  <ion-item lines=\"full\">\n    <ion-grid>\n        <ion-row>\n            <ion-col size=\"4\" text-start><strong><small>Product Name</small></strong></ion-col>\n            <ion-col size=\"2\" text-end><strong><small>Qty.</small></strong></ion-col>\n            <ion-col size=\"2\" text-end><strong><small>Price (Rs.)</small></strong></ion-col>\n            <ion-col size=\"2\" text-end><strong><small>Tax (%)</small></strong></ion-col>\n            <ion-col size=\"2\" text-end><strong><small>Total (Rs.)</small></strong></ion-col>\n          </ion-row>\n    </ion-grid>\n  </ion-item>\n\n  <ion-list *ngIf=\"hideOrShow === false\">\n\n    <ion-item-sliding *ngFor=\"let item of _dataRecived; let i=index;\">\n        <!-- | orderBy: order:'case-insensitive' -->\n\n      <ion-item mode=\"md\" lines=\"full\">\n        <ion-grid>\n            <ion-row>\n                <ion-col size=\"4\" text-start>{{item.name}}</ion-col>\n                <ion-col size=\"2\" text-end>\n                    <ion-input type=\"number\" [(ngModel)]=\"item.quantity\" (ionChange)=\"getQuantity($event, item, i)\" debounce=\"500\"></ion-input>\n                </ion-col>\n                <ion-col size=\"2\" text-end>{{item.price}}</ion-col>\n                <ion-col size=\"2\" text-end>{{item.tax}}</ion-col>\n                <ion-col size=\"2\" text-end>{{item.total}}</ion-col>\n              </ion-row>\n        </ion-grid>\n      </ion-item>\n\n      <ion-item-options side=\"end\">\n        <ion-item-option (click)=\"removeFromList()\">\n          <ion-icon slot=\"icon-only\" name=\"trash\"></ion-icon>\n        </ion-item-option>\n      </ion-item-options>\n\n    </ion-item-sliding>\n\n  </ion-list>\n\n</ion-content>\n\n<ion-footer>\n  <ion-toolbar>\n    <ion-grid>\n      <ion-row>\n        <ion-col size=\"7\" text-start>\n          <strong>Total Ammount: </strong>\n        </ion-col>\n        <ion-col size=\"5\" text-end>\n          <strong>{{ billedAmt }}</strong>\n        </ion-col>\n      </ion-row>\n      <ion-row>\n        <ion-col>\n          <ion-button color=\"secondary\" expand=\"block\" (click)=\"generateNewInvoice()\">Generate Invoice</ion-button>\n        </ion-col>\n      </ion-row>\n    </ion-grid>\n  </ion-toolbar>\n</ion-footer>"
 
 /***/ }),
 
@@ -69,7 +69,7 @@ module.exports = "<ion-header>\n  <ion-toolbar color=\"secondary\">\n    <ion-bu
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "ion-content ion-list ion-item ion-row ion-col ion-input {\n  border: 2px solid #959ba1;\n  border-radius: 3px;\n  width: 100%;\n  height: 70%; }\n\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9Vc2Vycy9kaGlyZW5kcmEvRGVza3RvcC9ERVYvdW52aXJlZC9zcWxpdGUtZGItaW9uaWMvc3JjL2FwcC9pdGVtcy9pdGVtcy5wYWdlLnNjc3MiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUE7RUFNd0IseUJBQW9DO0VBQ3BDLGtCQUFrQjtFQUNsQixXQUFXO0VBQ1gsV0FBVyxFQUFBIiwiZmlsZSI6InNyYy9hcHAvaXRlbXMvaXRlbXMucGFnZS5zY3NzIiwic291cmNlc0NvbnRlbnQiOlsiaW9uLWNvbnRlbnQge1xuICAgIGlvbi1saXN0IHtcbiAgICAgICAgaW9uLWl0ZW0ge1xuICAgICAgICAgICAgaW9uLXJvdyB7XG4gICAgICAgICAgICAgICAgaW9uLWNvbCB7XG4gICAgICAgICAgICAgICAgICAgIGlvbi1pbnB1dCB7XG4gICAgICAgICAgICAgICAgICAgICAgICBib3JkZXI6IDJweCBzb2xpZCByZ2IoMTQ5LCAxNTUsIDE2MSk7XG4gICAgICAgICAgICAgICAgICAgICAgICBib3JkZXItcmFkaXVzOiAzcHg7XG4gICAgICAgICAgICAgICAgICAgICAgICB3aWR0aDogMTAwJTtcbiAgICAgICAgICAgICAgICAgICAgICAgIGhlaWdodDogNzAlO1xuICAgICAgICAgICAgICAgICAgICB9XG4gICAgICAgICAgICAgICAgfVxuXG5cbiAgICAgICAgICAgIH1cblxuICAgICAgICB9XG4gICAgfVxufSJdfQ== */"
+module.exports = "ion-content ion-list ion-item ion-row ion-col ion-input {\n  border: 2px solid #959ba1;\n  border-radius: 3px;\n  width: 100%;\n  height: 70%; }\n\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvaXRlbXMvQTpcXHNxbGl0ZS1kYi1pbnZvaWNlL3NyY1xcYXBwXFxpdGVtc1xcaXRlbXMucGFnZS5zY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBO0VBTXdCLHlCQUFvQztFQUNwQyxrQkFBa0I7RUFDbEIsV0FBVztFQUNYLFdBQVcsRUFBQSIsImZpbGUiOiJzcmMvYXBwL2l0ZW1zL2l0ZW1zLnBhZ2Uuc2NzcyIsInNvdXJjZXNDb250ZW50IjpbImlvbi1jb250ZW50IHtcbiAgICBpb24tbGlzdCB7XG4gICAgICAgIGlvbi1pdGVtIHtcbiAgICAgICAgICAgIGlvbi1yb3cge1xuICAgICAgICAgICAgICAgIGlvbi1jb2wge1xuICAgICAgICAgICAgICAgICAgICBpb24taW5wdXQge1xuICAgICAgICAgICAgICAgICAgICAgICAgYm9yZGVyOiAycHggc29saWQgcmdiKDE0OSwgMTU1LCAxNjEpO1xuICAgICAgICAgICAgICAgICAgICAgICAgYm9yZGVyLXJhZGl1czogM3B4O1xuICAgICAgICAgICAgICAgICAgICAgICAgd2lkdGg6IDEwMCU7XG4gICAgICAgICAgICAgICAgICAgICAgICBoZWlnaHQ6IDcwJTtcbiAgICAgICAgICAgICAgICAgICAgfVxuICAgICAgICAgICAgICAgIH1cblxuXG4gICAgICAgICAgICB9XG5cbiAgICAgICAgfVxuICAgIH1cbn0iXX0= */"
 
 /***/ }),
 
@@ -103,26 +103,24 @@ var ItemsPage = /** @class */ (function () {
         this._router = _router;
         this._PC = _PC;
         this._dataRecived = null;
+        this.sendToInvoices = [];
+        this.composeData = {};
         this.enteredQuantities = [];
         this.subTotal = [];
+        this.itemsFlag = "items";
         this._route.queryParams.subscribe(function (params) {
             if (_this._router.getCurrentNavigation().extras.state) {
                 _this._dataRecived = _this._router.getCurrentNavigation().extras.state.data;
-                console.log("On Invoice Creation Page, data recieved " + _this._dataRecived);
+                console.log("This data recieved from products page: ", _this._dataRecived);
+                _this.hideOrShow = _this._dataRecived.includes('invoices');
+                console.log("Hide Or Show Value: ", _this.hideOrShow);
             }
         });
         this.billedAmt = 0;
+        this.sendToInvoices.length = 0;
+        console.log("After Sending Data to Invoices, Values in SendToInvoices: ", this.sendToInvoices);
     }
-    ItemsPage.prototype.ngOnInit = function () {
-        if (this._dataRecived.length === undefined) {
-            this.totalNoOfItems = 0;
-            console.log("Total No. of Items = " + this.totalNoOfItems);
-        }
-        else {
-            this.totalNoOfItems = this._dataRecived.length;
-            console.log("Total No. of Items = " + this.totalNoOfItems);
-        }
-    };
+    ItemsPage.prototype.ngOnInit = function () { };
     // Create PopOver to get more options for user
     ItemsPage.prototype.moreOptions = function (ev) {
         return tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"](this, void 0, void 0, function () {
@@ -148,18 +146,37 @@ var ItemsPage = /** @class */ (function () {
     };
     // Get Quantity of Product from User
     ItemsPage.prototype.getQuantity = function (ev, itemObj, ind) {
+        this.totalNoOfItems = this._dataRecived.length;
+        console.log("Total no. of Items Recieved: ", this.totalNoOfItems);
+        this.itemId = this.generateRandomID();
+        console.log("Id Generated for new Items: ", this.itemId);
         for (var i = 0; i < this.totalNoOfItems; i++) {
             if (ind === i) {
+                console.log("Index At: ", ind);
                 this.enteredQuantities[ind] = parseInt(ev.target.value);
                 this.quantity = this.enteredQuantities[ind];
                 if (isNaN(this.enteredQuantities[ind])) {
                     this.enteredQuantities[ind] = 0;
                 }
+                // To store items into Database
+                var composeData = {
+                    'item_id': this.itemId,
+                    'product_id': itemObj.id,
+                    'product_name': itemObj.name,
+                    'product_quantity': this.enteredQuantities[ind],
+                    'product_price': itemObj.price,
+                    'product_tax': itemObj.tax
+                };
+                this.sendToInvoices.push(composeData);
+                this._DB.createItem(this.itemId, itemObj.id, itemObj.name, this.enteredQuantities[ind], itemObj.price, itemObj.tax)
+                    .then(function () { return console.log("New item row has added Items Table"); })
+                    .catch(function (e) { return console.log(e); });
             }
+            console.log("Quantity entered for this object: ", itemObj);
             console.log("1. Quantity entered " + this.enteredQuantities[ind] + " and type of quantity = " + typeof (this.enteredQuantities[ind]));
-            console.log("2. Product price is " + itemObj.product_price + " and type of quantity = " + typeof (itemObj.product_price));
-            console.log("3. Product tax is " + itemObj.product_tax + " and type of quantity = " + typeof (itemObj.product_tax));
-            itemObj.total = this.enteredQuantities[ind] * (itemObj.product_price + ((itemObj.product_tax / 100) * itemObj.product_price));
+            console.log("2. Product price is " + itemObj.price + " and type of quantity = " + typeof (itemObj.price));
+            console.log("3. Product tax is " + itemObj.tax + " and type of quantity = " + typeof (itemObj.tax));
+            itemObj.total = this.enteredQuantities[ind] * (itemObj.price + ((itemObj.tax / 100) * itemObj.price));
             this.subTotal[ind] = itemObj.total;
         }
         this.billedAmt = this.subTotal.reduce(function (a, b) { return a + b; });
@@ -172,7 +189,8 @@ var ItemsPage = /** @class */ (function () {
     ItemsPage.prototype.generateNewInvoice = function () {
         var dataToSendToInvoices = {
             state: {
-                data: this.billedAmt
+                data_1: this.billedAmt,
+                data_2: this.sendToInvoices
             }
         };
         this._router.navigate(['/invoices'], dataToSendToInvoices);

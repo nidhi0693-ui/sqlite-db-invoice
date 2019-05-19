@@ -3,6 +3,7 @@ import { DatabaseProviderService } from '../services/database-provider.service';
 import { Router, NavigationExtras, ActivatedRoute } from '@angular/router';
 import { Product } from '../DATA_MODELS/product';
 import { ToastController, IonItemSliding } from '@ionic/angular';
+import { OrderPipe } from 'ngx-order-pipe';
 
 @Component({
   selector: 'app-products',
@@ -15,12 +16,15 @@ export class ProductsPage implements OnInit {
   private _products = []
   private _selectedProduct = []
   private dataRecieved = null
+  productsFlag = "products"
+  // order: string = 'name'
   
   constructor(
     private _DB: DatabaseProviderService,
     private _route: ActivatedRoute,
     private _router: Router, 
     private _TC: ToastController
+    // private orderPipe: OrderPipe
   ) { 
     this._route.queryParams.subscribe(params => {
       if(this._router.getCurrentNavigation().extras.state) {
@@ -42,6 +46,8 @@ export class ProductsPage implements OnInit {
     this._DB.readAllProduct()
       .then((data: any) => {
         this._products = data;
+        // this._products = this.orderPipe.transform(this._products, 'name')
+        console.log("form products page loadProducts(): ", this._products)
       }).catch(e => console.log(e))
   }
 
@@ -60,6 +66,7 @@ export class ProductsPage implements OnInit {
         return;
       }
     })
+    console.log("selected Data To Send: ", this._selectedProduct)
   }
 
   markedData() {
@@ -68,7 +75,7 @@ export class ProductsPage implements OnInit {
         data: this._selectedProduct
       }
     }
-    console.log(`On products page dataSendToItemsPage = ${this._selectedProduct}`)
+    console.log("On products page dataSendToItemsPage", this._selectedProduct)
     this._router.navigate(['/items'], dataToSend)
   }
 

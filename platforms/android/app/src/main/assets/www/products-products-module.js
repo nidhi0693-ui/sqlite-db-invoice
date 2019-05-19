@@ -17,6 +17,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
 /* harmony import */ var _ionic_angular__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @ionic/angular */ "./node_modules/@ionic/angular/dist/fesm5.js");
 /* harmony import */ var _products_page__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./products.page */ "./src/app/products/products.page.ts");
+/* harmony import */ var ngx_order_pipe__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ngx-order-pipe */ "./node_modules/ngx-order-pipe/ngx-order-pipe.es5.js");
+
 
 
 
@@ -39,7 +41,8 @@ var ProductsPageModule = /** @class */ (function () {
                 _angular_common__WEBPACK_IMPORTED_MODULE_2__["CommonModule"],
                 _angular_forms__WEBPACK_IMPORTED_MODULE_3__["FormsModule"],
                 _ionic_angular__WEBPACK_IMPORTED_MODULE_5__["IonicModule"],
-                _angular_router__WEBPACK_IMPORTED_MODULE_4__["RouterModule"].forChild(routes)
+                _angular_router__WEBPACK_IMPORTED_MODULE_4__["RouterModule"].forChild(routes),
+                ngx_order_pipe__WEBPACK_IMPORTED_MODULE_7__["OrderModule"]
             ],
             declarations: [_products_page__WEBPACK_IMPORTED_MODULE_6__["ProductsPage"]]
         })
@@ -94,7 +97,10 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var ProductsPage = /** @class */ (function () {
-    function ProductsPage(_DB, _route, _router, _TC) {
+    // order: string = 'name'
+    function ProductsPage(_DB, _route, _router, _TC
+    // private orderPipe: OrderPipe
+    ) {
         var _this = this;
         this._DB = _DB;
         this._route = _route;
@@ -103,6 +109,7 @@ var ProductsPage = /** @class */ (function () {
         this._products = [];
         this._selectedProduct = [];
         this.dataRecieved = null;
+        this.productsFlag = "products";
         this._route.queryParams.subscribe(function (params) {
             if (_this._router.getCurrentNavigation().extras.state) {
                 _this.dataRecieved = _this._router.getCurrentNavigation().extras.state.data;
@@ -122,6 +129,8 @@ var ProductsPage = /** @class */ (function () {
         this._DB.readAllProduct()
             .then(function (data) {
             _this._products = data;
+            // this._products = this.orderPipe.transform(this._products, 'name')
+            console.log("form products page loadProducts(): ", _this._products);
         }).catch(function (e) { return console.log(e); });
     };
     // Select Product'/s and send to items Page in order to generate Invoice
@@ -140,6 +149,7 @@ var ProductsPage = /** @class */ (function () {
                 return;
             }
         });
+        console.log("selected Data To Send: ", this._selectedProduct);
     };
     ProductsPage.prototype.markedData = function () {
         var dataToSend = {
@@ -147,7 +157,7 @@ var ProductsPage = /** @class */ (function () {
                 data: this._selectedProduct
             }
         };
-        console.log("On products page dataSendToItemsPage = " + this._selectedProduct);
+        console.log("On products page dataSendToItemsPage", this._selectedProduct);
         this._router.navigate(['/items'], dataToSend);
     };
     //<-------Start CRUD operation on DB ------------------>
@@ -276,7 +286,9 @@ var ProductsPage = /** @class */ (function () {
         tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_services_database_provider_service__WEBPACK_IMPORTED_MODULE_2__["DatabaseProviderService"],
             _angular_router__WEBPACK_IMPORTED_MODULE_3__["ActivatedRoute"],
             _angular_router__WEBPACK_IMPORTED_MODULE_3__["Router"],
-            _ionic_angular__WEBPACK_IMPORTED_MODULE_4__["ToastController"]])
+            _ionic_angular__WEBPACK_IMPORTED_MODULE_4__["ToastController"]
+            // private orderPipe: OrderPipe
+        ])
     ], ProductsPage);
     return ProductsPage;
 }());

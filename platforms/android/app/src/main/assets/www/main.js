@@ -833,6 +833,10 @@ module.exports = webpackAsyncContext;
 /***/ (function(module, exports, __webpack_require__) {
 
 var map = {
+	"./invoices/invoice/invoice.module": [
+		"./src/app/invoices/invoice/invoice.module.ts",
+		"invoices-invoice-invoice-module"
+	],
 	"./invoices/invoices.module": [
 		"./src/app/invoices/invoices.module.ts",
 		"invoices-invoices-module"
@@ -908,6 +912,7 @@ var routes = [
     { path: 'add-product', loadChildren: './products/add-product/add-product.module#AddProductPageModule' },
     { path: 'update-product/:id', loadChildren: './products/update-product/update-product.module#UpdateProductPageModule' },
     { path: 'popover', loadChildren: './items/popover/popover.module#PopoverPageModule' },
+    { path: 'invoice', loadChildren: './invoices/invoice/invoice.module#InvoicePageModule' },
 ];
 var AppRoutingModule = /** @class */ (function () {
     function AppRoutingModule() {
@@ -1042,6 +1047,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_platform_browser_animations__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! @angular/platform-browser/animations */ "./node_modules/@angular/platform-browser/fesm5/animations.js");
 /* harmony import */ var _angular_material_form_field__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! @angular/material/form-field */ "./node_modules/@angular/material/esm5/form-field.es5.js");
 /* harmony import */ var _angular_material_input__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! @angular/material/input */ "./node_modules/@angular/material/esm5/input.es5.js");
+/* harmony import */ var ngx_order_pipe__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ngx-order-pipe */ "./node_modules/ngx-order-pipe/ngx-order-pipe.es5.js");
 
 
 
@@ -1063,6 +1069,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
 var AppModule = /** @class */ (function () {
     function AppModule() {
     }
@@ -1081,6 +1088,7 @@ var AppModule = /** @class */ (function () {
                 _angular_platform_browser_animations__WEBPACK_IMPORTED_MODULE_16__["BrowserAnimationsModule"],
                 _angular_material_form_field__WEBPACK_IMPORTED_MODULE_17__["MatFormFieldModule"],
                 _angular_material_input__WEBPACK_IMPORTED_MODULE_18__["MatInputModule"],
+                ngx_order_pipe__WEBPACK_IMPORTED_MODULE_19__["OrderModule"]
             ],
             providers: [
                 _ionic_native_status_bar_ngx__WEBPACK_IMPORTED_MODULE_6__["StatusBar"],
@@ -1308,7 +1316,7 @@ var DatabaseProviderService = /** @class */ (function () {
         return this._DB.executeSql("CREATE TABLE IF NOT EXISTS products (\n            id TEXT PRIMARY KEY,\n            name TEXT,\n            price REAL,\n            tax REAL)", [])
             .then(function () {
             console.log('Products Table Created !');
-            return _this._DB.executeSql("CREATE TABLE IF NOT EXISTS items (\n                  id TEXT,\n                  product_id TEXT PRIMARY KEY,\n                  product_name TEXT,\n                  product_quantity INTEGER,\n                  product_price REAL,\n                  product_tax REAL)", []);
+            return _this._DB.executeSql("CREATE TABLE IF NOT EXISTS items (\n                  id TEXT,\n                  product_id TEXT,\n                  product_name TEXT,\n                  product_quantity INTEGER,\n                  product_price REAL,\n                  product_tax REAL)", []);
         }).then(function () {
             console.log('Items Table Created !');
             return _this._DB.executeSql("CREATE TABLE IF NOT EXISTS invoices (\n                     id TEXT,\n                     created_at TEXT,\n                     billed_amt REAL)", []);
@@ -1403,7 +1411,7 @@ var DatabaseProviderService = /** @class */ (function () {
     DatabaseProviderService.prototype.createItem = function (id, product_id, product_name, product_quantity, product_price, product_tax) {
         // id should be in text format and unique and also generated automatically
         var itemData = [id, product_id, product_name, product_quantity, product_price, product_tax];
-        return this._DB.executeSql("INSERT INTO item (\n            id, \n            product_id, \n            product_name, \n            product_quantity, \n            product_price, \n            product_tax \n            ) VALUES (?, ?, ?, ?, ?, ?)", itemData)
+        return this._DB.executeSql("INSERT INTO items (\n            id, \n            product_id, \n            product_name, \n            product_quantity, \n            product_price, \n            product_tax \n            ) VALUES (?, ?, ?, ?, ?, ?)", itemData)
             .then(function () { return console.log("One item is Inserted in items table with these data ", itemData); })
             .catch(function (e) { return console.log(e); });
     };
@@ -1457,15 +1465,15 @@ var DatabaseProviderService = /** @class */ (function () {
     };
     // =================== ITEM CRUD SECTION ENDS HERE =======================
     // ==================== INVOICE CRUD SECTION STARTS FROM HERE ====================
-    DatabaseProviderService.prototype.createInvoice = function (id, created_at, billed_amt) {
+    DatabaseProviderService.prototype.createInvoice = function (inv) {
         // id should be in text format and unique and also generated automatically
-        var invoiceData = [id, created_at, billed_amt];
-        return this._DB.executeSql("INSERT INTO invoices (\n            id, \n            created_at, \n            billed_amt\n            ) VALUES (?, ?, ?, ?)", invoiceData)
+        var invoiceData = [inv.id, inv.created_at, inv.billed_amt];
+        return this._DB.executeSql("INSERT INTO invoices (\n            id, \n            created_at, \n            billed_amt\n            ) VALUES (?, ?, ?)", invoiceData)
             .then(function () { return console.log("One invoice is Inserted in invoices table with these data ", invoiceData); })
             .catch(function (e) { return console.log(e); });
     };
     DatabaseProviderService.prototype.readAllInvoice = function () {
-        return this._DB.executeSql("\n         SELECT \n            id, \n            billed_amt, \n            created_at  \n         FROM invoice", [])
+        return this._DB.executeSql("\n         SELECT \n            id, \n            billed_amt, \n            created_at  \n         FROM invoices", [])
             .then(function (data) {
             var invoices = [];
             if (data.rows.length > 0) {
@@ -1602,7 +1610,7 @@ Object(_angular_platform_browser_dynamic__WEBPACK_IMPORTED_MODULE_1__["platformB
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! /Users/dhirendra/Desktop/DEV/unvired/sqlite-db-ionic/src/main.ts */"./src/main.ts");
+module.exports = __webpack_require__(/*! A:\sqlite-db-invoice\src\main.ts */"./src/main.ts");
 
 
 /***/ })

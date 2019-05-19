@@ -58,7 +58,7 @@ var InvoicesPageModule = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<ion-header>\n  <ion-toolbar color=\"secondary\">\n    <ion-title>\n      Invoices\n    </ion-title>\n  </ion-toolbar>\n</ion-header>\n\n<ion-content padding>\n  <!-- Present Invoices -->\n  <ion-list>\n    <ion-item lines=\"full\" mode=\"md\" *ngFor=\"let invoice of invoices\">\n      <ion-grid>\n        <ion-row>\n          <ion-col size=\"1\" text-start><small><strong>ID:</strong></small></ion-col>\n          <ion-col size=\"2\" text-end>{{ invoice.id }}</ion-col>\n          <ion-col size=\"4\" text-start><small><strong>Created at:</strong></small></ion-col>\n          <ion-col size=\"5\" text-end>{{ invoice.created_at }}</ion-col>\n        </ion-row>\n        <ion-row>\n          <ion-col size=\"6\" text-start><small><strong>Total Invoice Value:</strong></small></ion-col>\n          <ion-col size=\"6\" text-end><small><strong>{{ invoice.billed_amt }}</strong></small></ion-col>\n        </ion-row>\n      </ion-grid>\n    </ion-item>\n  </ion-list>\n\n  <!-- Ionic Fab Button to provide more options for user -->\n  <ion-fab vertical=\"bottom\" horizontal=\"end\" slot=\"fixed\">\n\n    <ion-fab-button color=\"secondary\">\n      <ion-icon name=\"arrow-dropup\"></ion-icon>\n    </ion-fab-button>\n\n      <ion-fab-list side=\"top\">\n\n        <!--  1.Export in JSON  2.Product List 3.Create New Invoice  -->\n        <ion-fab-button (click)=\"exportDbInJSON()\">\n          <ion-icon name=\"download\"></ion-icon>\n        </ion-fab-button>\n        <ion-label>Export in JSON</ion-label>\n\n        <ion-fab-button (click)=\"loadProductList()\">\n          <ion-icon name=\"list\"></ion-icon>\n        </ion-fab-button>\n        <ion-label>Product List</ion-label>\n        \n        <ion-fab-button (click)=\"createNewInvoice()\">\n          <ion-icon name=\"create\"></ion-icon>\n        </ion-fab-button>\n        <ion-label>Create New Invoice</ion-label>\n          \n      </ion-fab-list>\n  </ion-fab>\n  \n</ion-content>"
+module.exports = "<ion-header>\n  <ion-toolbar color=\"secondary\">\n    <ion-title>\n      Invoices\n    </ion-title>\n  </ion-toolbar>\n</ion-header>\n\n<ion-content padding>\n  <!-- Present Invoices -->\n  <ion-list>\n    <ion-item lines=\"full\" mode=\"md\" *ngFor=\"let invoice of invoices\" (click)=\"showInvoice($event)\">\n      <ion-grid>\n        <ion-row>\n          <ion-col size=\"4\" text-start><small>ID:</small></ion-col>\n          <ion-col size=\"8\" text-end><small>{{ invoice.id }}</small></ion-col>\n        </ion-row>\n        <ion-row>\n            <ion-col size=\"4\" text-start><small>Created at:</small></ion-col>\n            <ion-col size=\"8\" text-end><small>{{ invoice.created_at }}</small></ion-col>\n        </ion-row>\n        <ion-row>\n          <ion-col size=\"6\" text-start><small>Total Invoice Value:</small></ion-col>\n          <ion-col size=\"6\" text-end><small>{{ invoice.billed_amt }} Rs.</small></ion-col>\n        </ion-row>\n      </ion-grid>\n    </ion-item>\n  </ion-list>\n\n  <!-- Ionic Fab Button to provide more options for user -->\n  <ion-fab vertical=\"bottom\" horizontal=\"end\" slot=\"fixed\">\n\n    <ion-fab-button color=\"secondary\">\n      <ion-icon name=\"arrow-dropup\"></ion-icon>\n    </ion-fab-button>\n\n      <ion-fab-list side=\"top\">\n\n        <!--  1.Export in JSON  2.Product List 3.Create New Invoice  -->\n        <ion-fab-button (click)=\"exportDbInJSON()\">\n          <ion-icon name=\"download\"></ion-icon>\n        </ion-fab-button>\n        <ion-label>Export in JSON</ion-label>\n\n        <ion-fab-button (click)=\"loadProductList()\">\n          <ion-icon name=\"list\"></ion-icon>\n        </ion-fab-button>\n        <ion-label>Product List</ion-label>\n        \n        <ion-fab-button (click)=\"createNewInvoice()\">\n          <ion-icon name=\"create\"></ion-icon>\n        </ion-fab-button>\n        <ion-label>Create New Invoice</ion-label>\n          \n      </ion-fab-list>\n  </ion-fab>\n  \n</ion-content>"
 
 /***/ }),
 
@@ -69,7 +69,7 @@ module.exports = "<ion-header>\n  <ion-toolbar color=\"secondary\">\n    <ion-ti
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "ion-fab-button {\n  margin-left: 140px;\n  overflow: visible;\n  position: relative;\n  --background: #0cd1e8; }\n  ion-fab-button ion-icon {\n    color: white; }\n  ion-fab-list ion-label {\n  position: relative;\n  top: 40px;\n  right: 25px;\n  color: white;\n  background-color: #0cd1e8;\n  line-height: 18px;\n  padding: 4px 8px;\n  border-radius: 4px; }\n\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9Vc2Vycy9kaGlyZW5kcmEvRGVza3RvcC9ERVYvdW52aXJlZC9zcWxpdGUtZGItaW9uaWMvc3JjL2FwcC9pbnZvaWNlcy9pbnZvaWNlcy5wYWdlLnNjc3MiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUE7RUFDRSxrQkFBa0I7RUFDbEIsaUJBQWlCO0VBQ2pCLGtCQUFrQjtFQUNsQixxQkFBYSxFQUFBO0VBSmY7SUFPSSxZQUFZLEVBQUE7RUFJaEI7RUFFSSxrQkFBa0I7RUFDbEIsU0FBUztFQUNULFdBQVc7RUFDWCxZQUFZO0VBQ1oseUJBQXlCO0VBRXpCLGlCQUFpQjtFQUNqQixnQkFBZ0I7RUFDaEIsa0JBQWtCLEVBQUEiLCJmaWxlIjoic3JjL2FwcC9pbnZvaWNlcy9pbnZvaWNlcy5wYWdlLnNjc3MiLCJzb3VyY2VzQ29udGVudCI6WyJpb24tZmFiLWJ1dHRvbiB7XG4gIG1hcmdpbi1sZWZ0OiAxNDBweDtcbiAgb3ZlcmZsb3c6IHZpc2libGU7XG4gIHBvc2l0aW9uOiByZWxhdGl2ZTtcbiAgLS1iYWNrZ3JvdW5kOiAjMGNkMWU4O1xuXG4gIGlvbi1pY29uIHtcbiAgICBjb2xvcjogd2hpdGU7XG4gIH1cbn1cblxuaW9uLWZhYi1saXN0IHtcbiAgaW9uLWxhYmVsIHtcbiAgICBwb3NpdGlvbjogcmVsYXRpdmU7XG4gICAgdG9wOiA0MHB4O1xuICAgIHJpZ2h0OiAyNXB4O1xuICAgIGNvbG9yOiB3aGl0ZTtcbiAgICBiYWNrZ3JvdW5kLWNvbG9yOiAjMGNkMWU4O1xuICAgIC8vICAgYmFja2dyb3VuZC1jb2xvcjogcmdiYSgwLDAsMCwwLjcpO1xuICAgIGxpbmUtaGVpZ2h0OiAxOHB4O1xuICAgIHBhZGRpbmc6IDRweCA4cHg7XG4gICAgYm9yZGVyLXJhZGl1czogNHB4O1xuICB9XG59Il19 */"
+module.exports = "ion-fab-button {\n  margin-left: 140px;\n  overflow: visible;\n  position: relative;\n  --background: #0cd1e8; }\n  ion-fab-button ion-icon {\n    color: white; }\n  ion-fab-list ion-label {\n  position: relative;\n  top: 40px;\n  right: 25px;\n  color: white;\n  background-color: #0cd1e8;\n  line-height: 18px;\n  padding: 4px 8px;\n  border-radius: 4px; }\n\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvaW52b2ljZXMvQTpcXHNxbGl0ZS1kYi1pbnZvaWNlL3NyY1xcYXBwXFxpbnZvaWNlc1xcaW52b2ljZXMucGFnZS5zY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBO0VBQ0Usa0JBQWtCO0VBQ2xCLGlCQUFpQjtFQUNqQixrQkFBa0I7RUFDbEIscUJBQWEsRUFBQTtFQUpmO0lBT0ksWUFBWSxFQUFBO0VBSWhCO0VBRUksa0JBQWtCO0VBQ2xCLFNBQVM7RUFDVCxXQUFXO0VBQ1gsWUFBWTtFQUNaLHlCQUF5QjtFQUV6QixpQkFBaUI7RUFDakIsZ0JBQWdCO0VBQ2hCLGtCQUFrQixFQUFBIiwiZmlsZSI6InNyYy9hcHAvaW52b2ljZXMvaW52b2ljZXMucGFnZS5zY3NzIiwic291cmNlc0NvbnRlbnQiOlsiaW9uLWZhYi1idXR0b24ge1xuICBtYXJnaW4tbGVmdDogMTQwcHg7XG4gIG92ZXJmbG93OiB2aXNpYmxlO1xuICBwb3NpdGlvbjogcmVsYXRpdmU7XG4gIC0tYmFja2dyb3VuZDogIzBjZDFlODtcblxuICBpb24taWNvbiB7XG4gICAgY29sb3I6IHdoaXRlO1xuICB9XG59XG5cbmlvbi1mYWItbGlzdCB7XG4gIGlvbi1sYWJlbCB7XG4gICAgcG9zaXRpb246IHJlbGF0aXZlO1xuICAgIHRvcDogNDBweDtcbiAgICByaWdodDogMjVweDtcbiAgICBjb2xvcjogd2hpdGU7XG4gICAgYmFja2dyb3VuZC1jb2xvcjogIzBjZDFlODtcbiAgICAvLyAgIGJhY2tncm91bmQtY29sb3I6IHJnYmEoMCwwLDAsMC43KTtcbiAgICBsaW5lLWhlaWdodDogMThweDtcbiAgICBwYWRkaW5nOiA0cHggOHB4O1xuICAgIGJvcmRlci1yYWRpdXM6IDRweDtcbiAgfVxufSJdfQ== */"
 
 /***/ }),
 
@@ -92,6 +92,24 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var InvoicesPage = /** @class */ (function () {
+    // You should get data in this form only
+    // invoices = [
+    //   {
+    //     "id": "10fdf44",
+    //     "created_at": "10/11/2019 04:50",
+    //     "billed_amt": 212654.32
+    //   },
+    //   {
+    //     "id": "32hkl34",
+    //     "created_at": "12/11/2019 12:50",
+    //     "billed_amt": 698756.32
+    //   },
+    //   {
+    //     "id": "fjk78sdf",
+    //     "created_at": "18/11/2019 09:50",
+    //     "billed_amt": 1547896.24
+    //   }
+    // ]
     function InvoicesPage(_route, _router, _DB) {
         var _this = this;
         this._route = _route;
@@ -99,37 +117,57 @@ var InvoicesPage = /** @class */ (function () {
         this._DB = _DB;
         this.invoices = [];
         this._invoiceAmt = null;
-        // localData: Date
         this.invoice = {};
+        this.composeArray = [];
+        this.dataToShowInvoice = [];
         // Generate Flag to control the data passed over navigation
-        this.invoicesFlag = {
-            pageName: "Invoices",
-            content: "Hey! I am from Invoices Page"
-        };
+        this.invoicesFlag = "invoices";
         this._route.queryParams.subscribe(function (params) {
             if (_this._router.getCurrentNavigation().extras.state) {
-                _this._invoiceAmt = _this._router.getCurrentNavigation().extras.state.data;
+                _this._invoiceAmt = _this._router.getCurrentNavigation().extras.state.data_1;
+                _this.dataToShowInvoice = _this._router.getCurrentNavigation().extras.state.data_2;
+                console.log("Data to Show In Invoice", _this.dataToShowInvoice);
                 if (_this._invoiceAmt) {
                     console.log("1. Invoice amount from Create Invoice Page: ", _this._invoiceAmt);
                     _this.invoice.id = _this.generateRandomID();
                     _this.invoice.created_at = new Date().toLocaleString();
                     _this.invoice.billed_amt = _this._invoiceAmt;
                     console.log("2. Invoice property with its updated Data: ", _this.invoice);
-                    _this.invoices.push(_this.invoice);
-                    console.log("3. So Now the complete Invoices is: ", _this.invoices);
+                    // this.invoices.push(this.invoice)
+                    // console.log("3. So Now the complete Invoices is: ", this.invoices)
+                    _this._DB.createInvoice(_this.invoice)
+                        .then(function () {
+                        console.log('One invoice row added in invoices table with these data', _this.invoice);
+                        _this._DB.readAllInvoice()
+                            .then(function (data) {
+                            console.log("this data will be invoices: ", data);
+                            _this.invoices = data;
+                            console.log("From invoices page total invoices are: ", _this.invoices);
+                        });
+                    }).catch(function (e) { return console.log(e); });
                 }
                 else {
                     console.log("Invoice amount not generated");
                 }
             }
         });
+        this.composeArray.length = 0;
     }
-    InvoicesPage.prototype.ngOnInit = function () {
+    InvoicesPage.prototype.ngOnInit = function () { };
+    InvoicesPage.prototype.showInvoice = function (ev) {
+        console.log("Tapped Value: ", ev.target.value);
+        // let dataToSend: NavigationExtras = {
+        //   state: {
+        //     data_1: this.cre
+        //   }
+        // }
+        this._router.navigate(['/invoice']);
     };
     InvoicesPage.prototype.createNewInvoice = function () {
+        this.composeArray.push(this.invoicesFlag);
         var dataToSend = {
             state: {
-                data: this.invoicesFlag
+                data: this.composeArray
             }
         };
         this._router.navigate(['/items'], dataToSend);
