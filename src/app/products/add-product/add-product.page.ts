@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/forms';
 import { DatabaseProviderService } from '../../services/database-provider.service';
 import { Router } from "@angular/router";
 
@@ -24,10 +24,9 @@ export class AddProductPage implements OnInit {
       { type: 'minlength', message: 'Price cannot be empty.' }
     ],
     'tax': [ // TODO: Valid values are 0 <= Tax <= 100
-      { type: 'required', message: 'Tax is required' },
-      { type: 'pattern', message: 'Only numbers are allowed.' },
-      { type: 'minlength', message: 'Tax cannot be empty.' },
-      { type: 'maxlength', message: 'Tax cannot be more than 3 characters' }
+      { type: 'required', message: 'Tax is required (0 to 100 allowed)' },
+      // { type: 'taxRangeValidator', message: 'Only numbers are allowed.' },
+      // { type: 'minlength', message: 'Tax cannot be empty.' }
     ]
   }
 
@@ -40,8 +39,11 @@ export class AddProductPage implements OnInit {
   ngOnInit() {
     this.addProductForm = this._FB.group({
       name: ['', Validators.compose([
+        // Validators.pattern("^[a-zA-z]+([\s][a-zA-Z]+)*$"),
+        // Validators.pattern("^([a-zA-Z])+(\s)+[a-zA-Z]+$"),
+        // Validators.pattern("[a-zA-Z]+([\s][a-zA-Z]+)*"),
         Validators.required,
-        Validators.pattern('[a-zA-Z][a-zA-Z ]+[a-zA-Z]$'),
+        Validators.pattern("^([a-zA-Z]+([a-zA-Z]+)*)(\s([a-zA-Z]+([a-zA-Z]+)*))*$"),
         Validators.minLength(3)
       ])],
       price: ['', Validators.compose([
@@ -50,8 +52,9 @@ export class AddProductPage implements OnInit {
         Validators.minLength(1)
       ])],
       tax: ['', Validators.compose([
+        // Validators.pattern('^\d{1,2}((,|.)\d{1,3})?$'), 
         Validators.required,
-        Validators.pattern('^(100(?:\.?)?|\d?\d(?:\.\d\d?)?)$'),
+        this.taxRangeValidator,  
         Validators.minLength(1)
       ])]
     })
@@ -78,5 +81,13 @@ export class AddProductPage implements OnInit {
     let id = data.toString(16).substring(2, 8)
     return id;
   }
+
+  // Custom Validators for numbers ranges from 0 to 100 including boundaries
+  taxRangeValidator(control: AbstractControl): { [key: string]: boolean } | null {
+    if (control.value !== undefined && (isNaN(control.value) || control.value < 0 || control.value > 100)) {
+        return { 'taxRange': true };
+    }
+    return null;
+  } 
 
 }

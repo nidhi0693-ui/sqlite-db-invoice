@@ -1347,7 +1347,7 @@ var DatabaseProviderService = /** @class */ (function () {
         // id should be in text format and unique and also generated automatically
         var productData = [id, name, price, tax];
         return this._DB.executeSql("INSERT INTO products (\n            id, \n            name, \n            price, \n            tax \n            ) VALUES (?, ?, ?, ?)", productData)
-            .then(function () {
+            .then(function (data) {
             console.log("One product is added in products table with these data ", productData);
             _this.readAllProduct();
         })
@@ -1390,12 +1390,12 @@ var DatabaseProviderService = /** @class */ (function () {
         var _this = this;
         var updatedProductData = [prod.name, prod.price, prod.tax];
         console.log("Data to Update from Database Service: ", prod);
-        return this._DB.executeSql("UPDATE products \n            SET \n               name = ?, \n               price = ?, \n               tax = ? \n            WHERE id = " + prod.id, updatedProductData)
-            .then(function () {
+        console.log("On product id = " + prod.id + " data will be updated and it is type of " + typeof (prod.id));
+        return this._DB.executeSql("UPDATE products SET name=?, price=?, tax=? WHERE id = " + prod.id, updatedProductData)
+            .then(function (data) {
             console.log("Product info get updated successfully with these data ", updatedProductData);
             _this.readAllProduct();
-        })
-            .catch(function (e) { return console.log(e); });
+        }).catch(function (e) { return console.log(e); });
     };
     DatabaseProviderService.prototype.deleteProduct = function (product_id) {
         var _this = this;
@@ -1416,19 +1416,26 @@ var DatabaseProviderService = /** @class */ (function () {
             .catch(function (e) { return console.log(e); });
     };
     DatabaseProviderService.prototype.getItemInfo = function (item_id) {
+        console.log("Chosen Item_id: " + item_id);
         return this._DB.executeSql("SELECT \n            id, \n            product_id, \n            product_name, \n            product_quantity, \n            product_price, \n            product_tax \n         FROM items WHERE id=?", [item_id])
             .then(function (data) {
-            return {
-                id: data.rows.item(0).id,
-                product_id: data.rows.item(0).product_id,
-                product_name: data.rows.item(0).product_name,
-                product_quantity: data.rows.item(0).product_quantity,
-                product_price: data.rows.item(0).product_price,
-                product_tax: data.rows.item(0).product_tax,
-            };
-        }).then(function (itemInfo) {
-            console.log("Item Info: ", itemInfo);
-            return itemInfo;
+            var items = [];
+            if (data.rows.length > 0) {
+                // iterate through returned records and push as nested objects into items array
+                for (var k = 0; k < data.rows.length; k++) {
+                    items.push({
+                        id: data.rows.item(k).id,
+                        product_id: data.rows.item(k).product_id,
+                        product_name: data.rows.item(k).product_name,
+                        product_quantity: data.rows.item(k).product_quantity,
+                        product_price: data.rows.item(k).product_price,
+                        product_tax: data.rows.item(k).product_tax
+                    });
+                }
+            }
+            // }).then(itemInfo => {
+            console.log("Item Info: ", items);
+            return items;
         }).catch(function (e) { return console.log(e); });
     };
     DatabaseProviderService.prototype.readAllItem = function () {
@@ -1610,7 +1617,7 @@ Object(_angular_platform_browser_dynamic__WEBPACK_IMPORTED_MODULE_1__["platformB
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! A:\sqlite-db-invoice\src\main.ts */"./src/main.ts");
+module.exports = __webpack_require__(/*! /Users/dhirendra/Desktop/DEV/unvired/sqlite-db-invoice/src/main.ts */"./src/main.ts");
 
 
 /***/ })

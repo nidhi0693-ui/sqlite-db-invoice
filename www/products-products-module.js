@@ -61,7 +61,7 @@ var ProductsPageModule = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<ion-header>\n  <ion-toolbar color=\"secondary\">\n    <ion-buttons slot=\"start\">\n      <ion-back-button mode=\"md\" defaultHref=\"invoices\"></ion-back-button>\n    </ion-buttons>\n    <ion-buttons slot=\"end\">\n      <ion-button (click)=\"addProduct()\" mode=\"md\">\n        <ion-icon slot=\"icon-only\" name=\"add\"></ion-icon>\n      </ion-button>\n    </ion-buttons>\n    <ion-title>Products</ion-title>\n  </ion-toolbar>\n</ion-header>\n\n<ion-content>\n  <ion-item lines=\"full\">\n    <ion-grid>\n        <ion-row>\n            <ion-col size=\"4\" text-start><strong><small>Product Name</small></strong></ion-col>\n            <ion-col size=\"3\" text-end><strong><small>Price (Rs.)</small></strong></ion-col>\n            <ion-col size=\"2\" text-end><strong><small>Tax (%)</small></strong></ion-col>\n            <ion-col size=\"3\" text-end *ngIf=\"dataRecieved.pageName === 'Create Invoice'\"><strong><small>Select</small></strong></ion-col>\n          </ion-row>\n    </ion-grid>\n  </ion-item>\n\n  <ion-list>\n    <ion-item-sliding *ngFor=\"let prod of _products\" #slidingItem>\n      <ion-item mode=\"md\" lines=\"full\">\n        <ion-label>\n          <ion-grid>\n              <ion-row>\n                  <ion-col size=\"5\" text-start>{{ prod.name }}</ion-col>\n                  <ion-col size=\"3\" text-end>{{ prod.price }}</ion-col>\n                  <ion-col size=\"2\" text-end>{{ prod.tax }}%</ion-col>\n              </ion-row>\n          </ion-grid>\n        </ion-label>\n        <ion-checkbox slot=\"end\" mode=\"md\" (ionChange)=\"selectProduct($event, prod)\" *ngIf=\"dataRecieved.pageName === 'Create Invoice'\"></ion-checkbox>\n      </ion-item>\n      <ion-item-options side=\"end\">\n        <ion-item-option color=\"warning\" (click)=\"showProductInfo(prod.id)\">\n          <ion-icon name=\"alert\"></ion-icon>\n        </ion-item-option>\n        <ion-item-option color=\"primary\" (click)=\"updateProductInfo(prod)\">\n          <ion-icon name=\"create\"></ion-icon>\n        </ion-item-option>\n        <ion-item-option color=\"danger\" (click)=\"deleteProduct(prod.id)\">\n          <ion-icon name=\"trash\"></ion-icon>\n        </ion-item-option>\n      </ion-item-options>\n    </ion-item-sliding>\n  </ion-list>\n\n</ion-content>\n\n<ion-footer *ngIf=\"dataRecieved.pageName === 'Create Invoice'\">\n  <ion-toolbar>\n    <ion-button (click)=\"markedData()\" color=\"secondary\" expand=\"block\" position=\"bottom\">Update Invoice</ion-button>\n  </ion-toolbar>\n</ion-footer>"
+module.exports = "<ion-header>\n  <ion-toolbar color=\"secondary\">\n    <ion-buttons slot=\"start\">\n      <ion-back-button mode=\"md\" defaultHref=\"invoices\"></ion-back-button>\n    </ion-buttons>\n    <ion-buttons slot=\"end\">\n      <ion-button (click)=\"addProduct()\" mode=\"md\">\n        <ion-icon slot=\"icon-only\" name=\"add\"></ion-icon>\n      </ion-button>\n    </ion-buttons>\n    <ion-title>Products</ion-title>\n  </ion-toolbar>\n</ion-header>\n\n<ion-content>\n  <ion-item lines=\"full\">\n    <ion-grid>\n        <ion-row>\n            <ion-col size=\"5\" text-start><strong><small>Product Name</small></strong></ion-col>\n            <ion-col size=\"3\" text-end><strong><small>Price (Rs.)</small></strong></ion-col>\n            <ion-col size=\"2\" text-end><strong><small>Tax (%)</small></strong></ion-col>\n            <ion-col size=\"2\" text-end *ngIf=\"dataRecieved.pageName === 'Create Invoice'\"><strong><small>Select</small></strong></ion-col>\n          </ion-row>\n    </ion-grid>\n  </ion-item>\n\n  <ion-list>\n    <ion-item-sliding *ngFor=\"let prod of _products | orderBy: order\" #slidingItem>\n      <ion-item mode=\"md\" lines=\"full\">\n        <ion-label>\n          <ion-grid>\n              <ion-row>\n                  <ion-col size=\"5\" text-start>{{ prod.name }}</ion-col>\n                  <ion-col size=\"4\" text-end>{{ prod.price }}</ion-col>\n                  <ion-col size=\"3\" text-end>{{ prod.tax }}%</ion-col>\n              </ion-row>\n          </ion-grid>\n        </ion-label>\n        <ion-checkbox slot=\"end\" mode=\"md\" (ionChange)=\"selectProduct($event, prod)\" *ngIf=\"dataRecieved.pageName === 'Create Invoice'\"></ion-checkbox>\n      </ion-item>\n      <ion-item-options side=\"end\">\n        <ion-item-option color=\"warning\" (click)=\"showProductInfo(prod.id)\">\n          <ion-icon name=\"alert\"></ion-icon>\n        </ion-item-option>\n        <ion-item-option color=\"primary\" (click)=\"updateProductInfo(prod)\">\n          <ion-icon name=\"create\"></ion-icon>\n        </ion-item-option>\n        <ion-item-option color=\"danger\" (click)=\"deleteProduct(prod.id)\">\n          <ion-icon name=\"trash\"></ion-icon>\n        </ion-item-option>\n      </ion-item-options>\n    </ion-item-sliding>\n  </ion-list>\n\n</ion-content>\n\n<ion-footer *ngIf=\"dataRecieved.pageName === 'Create Invoice'\">\n  <ion-toolbar>\n    <ion-button (click)=\"markedData()\" color=\"secondary\" expand=\"block\" position=\"bottom\">Update Invoice</ion-button>\n  </ion-toolbar>\n</ion-footer>"
 
 /***/ }),
 
@@ -97,7 +97,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var ProductsPage = /** @class */ (function () {
-    // order: string = 'name'
     function ProductsPage(_DB, _route, _router, _TC
     // private orderPipe: OrderPipe
     ) {
@@ -110,19 +109,19 @@ var ProductsPage = /** @class */ (function () {
         this._selectedProduct = [];
         this.dataRecieved = null;
         this.productsFlag = "products";
+        this.order = 'name';
         this._route.queryParams.subscribe(function (params) {
             if (_this._router.getCurrentNavigation().extras.state) {
                 _this.dataRecieved = _this._router.getCurrentNavigation().extras.state.data;
                 console.log("Data recived from " + _this.dataRecieved.pageName + " Page and content is " + _this.dataRecieved.content);
             }
         });
-    }
-    ProductsPage.prototype.ngOnInit = function () {
         this.loadProducts();
         this._products.map(function (data) {
             data.hasSelected = false;
         });
-    };
+    }
+    ProductsPage.prototype.ngOnInit = function () { };
     // Load the Products from Database
     ProductsPage.prototype.loadProducts = function () {
         var _this = this;

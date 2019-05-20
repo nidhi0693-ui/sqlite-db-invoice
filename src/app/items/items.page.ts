@@ -44,6 +44,9 @@ export class ItemsPage implements OnInit {
 
     this.sendToInvoices.length = 0;
     console.log("After Sending Data to Invoices, Values in SendToInvoices: ", this.sendToInvoices)
+
+    this.itemId = this.generateRandomID()
+    console.log("Id Generated for new Items: ", this.itemId)
   }
 
   ngOnInit() { }
@@ -66,9 +69,6 @@ export class ItemsPage implements OnInit {
   getQuantity(ev: any, itemObj, ind) {
     this.totalNoOfItems = this._dataRecived.length
     console.log("Total no. of Items Recieved: ", this.totalNoOfItems)
-
-    this.itemId = this.generateRandomID()
-    console.log("Id Generated for new Items: ", this.itemId)
 
     for (let i = 0; i < this.totalNoOfItems; i++) {
       if (ind === i) {

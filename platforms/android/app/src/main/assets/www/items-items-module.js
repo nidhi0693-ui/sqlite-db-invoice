@@ -69,7 +69,7 @@ module.exports = "<ion-header>\n  <ion-toolbar color=\"secondary\">\n    <ion-bu
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "ion-content ion-list ion-item ion-row ion-col ion-input {\n  border: 2px solid #959ba1;\n  border-radius: 3px;\n  width: 100%;\n  height: 70%; }\n\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvaXRlbXMvQTpcXHNxbGl0ZS1kYi1pbnZvaWNlL3NyY1xcYXBwXFxpdGVtc1xcaXRlbXMucGFnZS5zY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBO0VBTXdCLHlCQUFvQztFQUNwQyxrQkFBa0I7RUFDbEIsV0FBVztFQUNYLFdBQVcsRUFBQSIsImZpbGUiOiJzcmMvYXBwL2l0ZW1zL2l0ZW1zLnBhZ2Uuc2NzcyIsInNvdXJjZXNDb250ZW50IjpbImlvbi1jb250ZW50IHtcbiAgICBpb24tbGlzdCB7XG4gICAgICAgIGlvbi1pdGVtIHtcbiAgICAgICAgICAgIGlvbi1yb3cge1xuICAgICAgICAgICAgICAgIGlvbi1jb2wge1xuICAgICAgICAgICAgICAgICAgICBpb24taW5wdXQge1xuICAgICAgICAgICAgICAgICAgICAgICAgYm9yZGVyOiAycHggc29saWQgcmdiKDE0OSwgMTU1LCAxNjEpO1xuICAgICAgICAgICAgICAgICAgICAgICAgYm9yZGVyLXJhZGl1czogM3B4O1xuICAgICAgICAgICAgICAgICAgICAgICAgd2lkdGg6IDEwMCU7XG4gICAgICAgICAgICAgICAgICAgICAgICBoZWlnaHQ6IDcwJTtcbiAgICAgICAgICAgICAgICAgICAgfVxuICAgICAgICAgICAgICAgIH1cblxuXG4gICAgICAgICAgICB9XG5cbiAgICAgICAgfVxuICAgIH1cbn0iXX0= */"
+module.exports = "ion-content ion-list ion-item ion-row ion-col ion-input {\n  border: 2px solid #959ba1;\n  border-radius: 3px;\n  width: 100%;\n  height: 70%; }\n\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9Vc2Vycy9kaGlyZW5kcmEvRGVza3RvcC9ERVYvdW52aXJlZC9zcWxpdGUtZGItaW52b2ljZS9zcmMvYXBwL2l0ZW1zL2l0ZW1zLnBhZ2Uuc2NzcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQTtFQU13Qix5QkFBb0M7RUFDcEMsa0JBQWtCO0VBQ2xCLFdBQVc7RUFDWCxXQUFXLEVBQUEiLCJmaWxlIjoic3JjL2FwcC9pdGVtcy9pdGVtcy5wYWdlLnNjc3MiLCJzb3VyY2VzQ29udGVudCI6WyJpb24tY29udGVudCB7XG4gICAgaW9uLWxpc3Qge1xuICAgICAgICBpb24taXRlbSB7XG4gICAgICAgICAgICBpb24tcm93IHtcbiAgICAgICAgICAgICAgICBpb24tY29sIHtcbiAgICAgICAgICAgICAgICAgICAgaW9uLWlucHV0IHtcbiAgICAgICAgICAgICAgICAgICAgICAgIGJvcmRlcjogMnB4IHNvbGlkIHJnYigxNDksIDE1NSwgMTYxKTtcbiAgICAgICAgICAgICAgICAgICAgICAgIGJvcmRlci1yYWRpdXM6IDNweDtcbiAgICAgICAgICAgICAgICAgICAgICAgIHdpZHRoOiAxMDAlO1xuICAgICAgICAgICAgICAgICAgICAgICAgaGVpZ2h0OiA3MCU7XG4gICAgICAgICAgICAgICAgICAgIH1cbiAgICAgICAgICAgICAgICB9XG5cblxuICAgICAgICAgICAgfVxuXG4gICAgICAgIH1cbiAgICB9XG59Il19 */"
 
 /***/ }),
 
@@ -119,6 +119,8 @@ var ItemsPage = /** @class */ (function () {
         this.billedAmt = 0;
         this.sendToInvoices.length = 0;
         console.log("After Sending Data to Invoices, Values in SendToInvoices: ", this.sendToInvoices);
+        this.itemId = this.generateRandomID();
+        console.log("Id Generated for new Items: ", this.itemId);
     }
     ItemsPage.prototype.ngOnInit = function () { };
     // Create PopOver to get more options for user
@@ -148,8 +150,6 @@ var ItemsPage = /** @class */ (function () {
     ItemsPage.prototype.getQuantity = function (ev, itemObj, ind) {
         this.totalNoOfItems = this._dataRecived.length;
         console.log("Total no. of Items Recieved: ", this.totalNoOfItems);
-        this.itemId = this.generateRandomID();
-        console.log("Id Generated for new Items: ", this.itemId);
         for (var i = 0; i < this.totalNoOfItems; i++) {
             if (ind === i) {
                 console.log("Index At: ", ind);

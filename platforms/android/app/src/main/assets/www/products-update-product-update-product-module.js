@@ -77,7 +77,7 @@ module.exports = "<ion-header>\n  <ion-toolbar color=\"secondary\">\n    <ion-bu
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "form {\n  display: flex;\n  flex-direction: column; }\n\n.full-width {\n  width: 100%; }\n\n.error-msg {\n  color: red;\n  display: block;\n  position: absolute;\n  font-size: 75%;\n  bottom: -2em; }\n\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvcHJvZHVjdHMvdXBkYXRlLXByb2R1Y3QvQTpcXHNxbGl0ZS1kYi1pbnZvaWNlL3NyY1xcYXBwXFxwcm9kdWN0c1xcdXBkYXRlLXByb2R1Y3RcXHVwZGF0ZS1wcm9kdWN0LnBhZ2Uuc2NzcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQTtFQUNJLGFBQWE7RUFDYixzQkFBc0IsRUFBQTs7QUFHMUI7RUFDSSxXQUFXLEVBQUE7O0FBR2Y7RUFDSSxVQUFVO0VBQ1YsY0FBYztFQUNkLGtCQUFrQjtFQUNsQixjQUFjO0VBQ2QsWUFBWSxFQUFBIiwiZmlsZSI6InNyYy9hcHAvcHJvZHVjdHMvdXBkYXRlLXByb2R1Y3QvdXBkYXRlLXByb2R1Y3QucGFnZS5zY3NzIiwic291cmNlc0NvbnRlbnQiOlsiZm9ybSB7XG4gICAgZGlzcGxheTogZmxleDtcbiAgICBmbGV4LWRpcmVjdGlvbjogY29sdW1uO1xufVxuXG4uZnVsbC13aWR0aCB7XG4gICAgd2lkdGg6IDEwMCU7XG59XG5cbi5lcnJvci1tc2cge1xuICAgIGNvbG9yOiByZWQ7XG4gICAgZGlzcGxheTogYmxvY2s7XG4gICAgcG9zaXRpb246IGFic29sdXRlO1xuICAgIGZvbnQtc2l6ZTogNzUlO1xuICAgIGJvdHRvbTogLTJlbTtcbn0iXX0= */"
+module.exports = "form {\n  display: flex;\n  flex-direction: column; }\n\n.full-width {\n  width: 100%; }\n\n.error-msg {\n  color: red;\n  display: block;\n  position: absolute;\n  font-size: 75%;\n  bottom: -2em; }\n\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9Vc2Vycy9kaGlyZW5kcmEvRGVza3RvcC9ERVYvdW52aXJlZC9zcWxpdGUtZGItaW52b2ljZS9zcmMvYXBwL3Byb2R1Y3RzL3VwZGF0ZS1wcm9kdWN0L3VwZGF0ZS1wcm9kdWN0LnBhZ2Uuc2NzcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQTtFQUNJLGFBQWE7RUFDYixzQkFBc0IsRUFBQTs7QUFHMUI7RUFDSSxXQUFXLEVBQUE7O0FBR2Y7RUFDSSxVQUFVO0VBQ1YsY0FBYztFQUNkLGtCQUFrQjtFQUNsQixjQUFjO0VBQ2QsWUFBWSxFQUFBIiwiZmlsZSI6InNyYy9hcHAvcHJvZHVjdHMvdXBkYXRlLXByb2R1Y3QvdXBkYXRlLXByb2R1Y3QucGFnZS5zY3NzIiwic291cmNlc0NvbnRlbnQiOlsiZm9ybSB7XG4gICAgZGlzcGxheTogZmxleDtcbiAgICBmbGV4LWRpcmVjdGlvbjogY29sdW1uO1xufVxuXG4uZnVsbC13aWR0aCB7XG4gICAgd2lkdGg6IDEwMCU7XG59XG5cbi5lcnJvci1tc2cge1xuICAgIGNvbG9yOiByZWQ7XG4gICAgZGlzcGxheTogYmxvY2s7XG4gICAgcG9zaXRpb246IGFic29sdXRlO1xuICAgIGZvbnQtc2l6ZTogNzUlO1xuICAgIGJvdHRvbTogLTJlbTtcbn0iXX0= */"
 
 /***/ }),
 
@@ -115,21 +115,16 @@ var UpdateProductPage = /** @class */ (function () {
         this.form_validation_messages = {
             'name': [
                 { type: 'required', message: 'Name is required' },
-                { type: 'pattern', message: 'Name contain only alphabets' },
-                { type: 'minlength', message: 'Name must be at least 3 characters long' },
-                { type: 'maxlength', message: 'Name cannot be more than 10 characters' }
+                { type: 'pattern', message: 'Only alphabet allowed. Minimum 3 letters.' },
+                { type: 'minlength', message: 'Minimum 3 letters.' }
             ],
             'price': [
                 { type: 'required', message: 'Price is required' },
-                { type: 'pattern', message: 'Price contain only numaric value' },
-                { type: 'minlength', message: 'Price must be at least 1 characters long' },
-                { type: 'maxlength', message: 'Price cannot be more than 4 characters' }
+                { type: 'pattern', message: 'Only numbers are allowed.' },
+                { type: 'minlength', message: 'Price cannot be empty.' }
             ],
             'tax': [
-                { type: 'required', message: 'Tax is required' },
-                { type: 'pattern', message: 'Tax contain only numaric value' },
-                { type: 'minlength', message: 'Tax must be at least 1 characters long' },
-                { type: 'maxlength', message: 'Tax cannot be more than 3 characters' }
+                { type: 'required', message: 'Tax is required (0 to 100 allowed)' },
             ]
         };
         this._route.queryParams.subscribe(function (params) {
@@ -143,21 +138,19 @@ var UpdateProductPage = /** @class */ (function () {
         this.updateProductForm = this._FB.group({
             name: [this._recievedData.name, _angular_forms__WEBPACK_IMPORTED_MODULE_5__["Validators"].compose([
                     _angular_forms__WEBPACK_IMPORTED_MODULE_5__["Validators"].required,
-                    _angular_forms__WEBPACK_IMPORTED_MODULE_5__["Validators"].pattern('[a-zA-Z][a-zA-Z ]+[a-zA-Z]$'),
-                    _angular_forms__WEBPACK_IMPORTED_MODULE_5__["Validators"].minLength(3),
-                    _angular_forms__WEBPACK_IMPORTED_MODULE_5__["Validators"].maxLength(10)
+                    _angular_forms__WEBPACK_IMPORTED_MODULE_5__["Validators"].pattern('^([a-zA-Z]+([a-zA-Z]+)*)(\s([a-zA-Z]+([a-zA-Z]+)*))*$'),
+                    _angular_forms__WEBPACK_IMPORTED_MODULE_5__["Validators"].minLength(3)
                 ])],
             price: [this._recievedData.price, _angular_forms__WEBPACK_IMPORTED_MODULE_5__["Validators"].compose([
                     _angular_forms__WEBPACK_IMPORTED_MODULE_5__["Validators"].required,
                     _angular_forms__WEBPACK_IMPORTED_MODULE_5__["Validators"].pattern('^([0-9]*[1-9][0-9]*(\.[0-9]+)?|[0]+\.[0-9]*[1-9][0-9]*)$'),
-                    _angular_forms__WEBPACK_IMPORTED_MODULE_5__["Validators"].minLength(1),
-                    _angular_forms__WEBPACK_IMPORTED_MODULE_5__["Validators"].maxLength(4)
+                    _angular_forms__WEBPACK_IMPORTED_MODULE_5__["Validators"].minLength(1)
                 ])],
             tax: [this._recievedData.tax, _angular_forms__WEBPACK_IMPORTED_MODULE_5__["Validators"].compose([
                     _angular_forms__WEBPACK_IMPORTED_MODULE_5__["Validators"].required,
-                    _angular_forms__WEBPACK_IMPORTED_MODULE_5__["Validators"].pattern('^(100(?:\.?)?|\d?\d(?:\.\d\d?)?)$'),
-                    _angular_forms__WEBPACK_IMPORTED_MODULE_5__["Validators"].minLength(1),
-                    _angular_forms__WEBPACK_IMPORTED_MODULE_5__["Validators"].maxLength(3)
+                    // Validators.pattern('^\d{1,2}((,|.)\d{1,3})?$'),
+                    this.taxRangeValidator,
+                    _angular_forms__WEBPACK_IMPORTED_MODULE_5__["Validators"].minLength(1)
                 ])]
         });
     };
@@ -170,7 +163,7 @@ var UpdateProductPage = /** @class */ (function () {
                 switch (_a.label) {
                     case 0:
                         if (!this.updateProductForm.valid) return [3 /*break*/, 2];
-                        console.log("Nav enters with this data: ", this.updateProductForm.value);
+                        console.log("Nav updated with this data: ", this.updateProductForm.value);
                         formData = {
                             'id': this._recievedData.id,
                             'name': this.updateProductForm.value.name,
@@ -191,6 +184,13 @@ var UpdateProductPage = /** @class */ (function () {
                 }
             });
         });
+    };
+    // Custom Validators for numbers ranges from 0 to 100 including boundaries
+    UpdateProductPage.prototype.taxRangeValidator = function (control) {
+        if (control.value !== undefined && (isNaN(control.value) || control.value < 0 || control.value > 100)) {
+            return { 'taxRange': true };
+        }
+        return null;
     };
     UpdateProductPage = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({

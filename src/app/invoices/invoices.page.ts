@@ -21,39 +21,24 @@ export class InvoicesPage implements OnInit {
   // Generate Flag to control the data passed over navigation
   invoicesFlag = "invoices"
 
-  // You should get data in this form only
-  // invoices = [
-  //   {
-  //     "id": "10fdf44",
-  //     "created_at": "10/11/2019 04:50",
-  //     "billed_amt": 212654.32
-  //   },
-  //   {
-  //     "id": "32hkl34",
-  //     "created_at": "12/11/2019 12:50",
-  //     "billed_amt": 698756.32
-  //   },
-  //   {
-  //     "id": "fjk78sdf",
-  //     "created_at": "18/11/2019 09:50",
-  //     "billed_amt": 1547896.24
-  //   }
-  // ]
-
   constructor(
     private _route: ActivatedRoute,
     private _router: Router,
     private _DB: DatabaseProviderService
   ) {
+    
+
+    // Check for Parameters recieved
     this._route.queryParams.subscribe(params => {
       if (this._router.getCurrentNavigation().extras.state) {
         this._invoiceAmt = this._router.getCurrentNavigation().extras.state.data_1
         this.dataToShowInvoice = this._router.getCurrentNavigation().extras.state.data_2
         console.log("Data to Show In Invoice", this.dataToShowInvoice)
+
         if (this._invoiceAmt) {
           console.log("1. Invoice amount from Create Invoice Page: ", this._invoiceAmt)
 
-          this.invoice.id = this.generateRandomID()
+          this.invoice.id = this.dataToShowInvoice[0].item_id
           this.invoice.created_at = new Date().toLocaleString()
           this.invoice.billed_amt = this._invoiceAmt
           console.log("2. Invoice property with its updated Data: ", this.invoice)
@@ -79,21 +64,24 @@ export class InvoicesPage implements OnInit {
     this.composeArray.length = 0
   }
 
-  ngOnInit() { }
-
-  showInvoice(ev: any) {
-    console.log("Tapped Value: ", ev.target.value)
-    // let dataToSend: NavigationExtras = {
-    //   state: {
-    //     data_1: this.cre
-    //   }
-    // }
-
-    this._router.navigate(['/invoice'])
+  ngOnInit() { 
+    // Load all invoices
+    this._DB.readAllInvoice().catch(e => console.log(e))
   }
 
-  createNewInvoice() {
 
+  showInvoice(invObj) {
+    console.log("Tapped Value: ", invObj)
+    let dataToSend: NavigationExtras = {
+      state: {
+        data: invObj
+      }
+    }
+    this._router.navigate(['/invoice'], dataToSend)
+  }
+
+
+  createNewInvoice() {
     this.composeArray.push(this.invoicesFlag)
     let dataToSend: NavigationExtras = {
       state: {
@@ -102,6 +90,7 @@ export class InvoicesPage implements OnInit {
     }
     this._router.navigate(['/items'], dataToSend)
   }
+
 
   loadProductList() {
     let dataToSend: NavigationExtras = {
@@ -112,9 +101,11 @@ export class InvoicesPage implements OnInit {
     this._router.navigate(['/products'], dataToSend);
   }
 
+
   exportDbInJSON() {
     this._DB.exportAsJSON();
   }
+
 
   // Generate A Unique ID
   generateRandomID() {

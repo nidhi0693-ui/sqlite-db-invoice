@@ -97,7 +97,7 @@ export class DatabaseProviderService {
             price, 
             tax 
             ) VALUES (?, ?, ?, ?)`, productData)
-         .then(() => {
+         .then((data) => {
             console.log("One product is added in products table with these data ", productData)
             this.readAllProduct()
          })
@@ -153,19 +153,15 @@ export class DatabaseProviderService {
 
    updateProductInfo(prod: Product) {
       let updatedProductData = [prod.name, prod.price, prod.tax]
+
       console.log("Data to Update from Database Service: ", prod)
-      return this._DB.executeSql(
-         `UPDATE products 
-            SET 
-               name = ?, 
-               price = ?, 
-               tax = ? 
-            WHERE id = ${prod.id}`, updatedProductData)
-         .then(() => {
+      console.log(`On product id = ${prod.id} data will be updated and it is type of ${typeof(prod.id)}`)
+
+      return this._DB.executeSql(`UPDATE products SET name=?, price=?, tax=? WHERE id = ${prod.id}`, updatedProductData)
+         .then((data) => {
             console.log("Product info get updated successfully with these data ", updatedProductData)
             this.readAllProduct()
-         })
-         .catch((e) => console.log(e));
+         }).catch((e) => console.log(e));
    }
 
    deleteProduct(product_id: string) {
@@ -207,6 +203,7 @@ export class DatabaseProviderService {
    }
 
    getItemInfo(item_id: string) {
+      console.log(`Chosen Item_id: ${item_id}`)
       return this._DB.executeSql(
          `SELECT 
             id, 
@@ -217,17 +214,23 @@ export class DatabaseProviderService {
             product_tax 
          FROM items WHERE id=?`, [item_id])
          .then((data) => {
-            return {
-               id: data.rows.item(0).id,
-               product_id: data.rows.item(0).product_id,
-               product_name: data.rows.item(0).product_name,
-               product_quantity: data.rows.item(0).product_quantity,
-               product_price: data.rows.item(0).product_price,
-               product_tax: data.rows.item(0).product_tax,
+            let items = [];
+            if (data.rows.length > 0) {
+               // iterate through returned records and push as nested objects into items array
+               for (var k = 0; k < data.rows.length; k++) {
+                  items.push({
+                     id: data.rows.item(k).id,
+                     product_id: data.rows.item(k).product_id,
+                     product_name: data.rows.item(k).product_name,
+                     product_quantity: data.rows.item(k).product_quantity,
+                     product_price: data.rows.item(k).product_price,
+                     product_tax: data.rows.item(k).product_tax
+                  });
+               }
             }
-         }).then(itemInfo => {
-            console.log("Item Info: ", itemInfo)
-            return itemInfo
+         // }).then(itemInfo => {
+            console.log("Item Info: ", items)
+            return items
          }).catch(e => console.log(e))
    }
 

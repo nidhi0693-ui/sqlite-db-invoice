@@ -17,7 +17,7 @@ export class ProductsPage implements OnInit {
   private _selectedProduct = []
   private dataRecieved = null
   productsFlag = "products"
-  // order: string = 'name'
+  order: string = 'name'
   
   constructor(
     private _DB: DatabaseProviderService,
@@ -32,14 +32,14 @@ export class ProductsPage implements OnInit {
         console.log(`Data recived from ${this.dataRecieved.pageName} Page and content is ${this.dataRecieved.content}`)
       }
     })
-  }
 
-  ngOnInit() {
     this.loadProducts();
     this._products.map((data) => {
       data.hasSelected = false
     })
   }
+
+  ngOnInit() { }
 
   // Load the Products from Database
   loadProducts() {
