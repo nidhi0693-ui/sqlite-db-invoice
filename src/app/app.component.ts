@@ -33,18 +33,25 @@ export class AppComponent {
    loadRecords() {
       this._DB.loadDB().then(() => {
          this._DB.createTables().then(() => {
+
             this.tables.forEach((data) => {
                this._DB.dataExistsCheck(data).then((res) => {
                   if (res != 0) {
-                     this._DB.readAllInvoice().then(() => {
-                        this._DB.exportAsJSON();
-                     })
+                     console.log("Data is Available to Load ...")
                   } else {
-                     console.log("No Data Available to Load ...");
+                     console.log("No Data Available to Load ...")
                   }
                })
             })
          })
+      // }).then(() => {
+      //    this._DB.readAllInvoice().then(() => {
+      //       this._DB.exportAsJSON();
+      //    })
       }).catch((e) => console.log(e));
    }
 }
+
+// this._DB.readAllInvoice().then(() => {
+//    this._DB.exportAsJSON();
+// })

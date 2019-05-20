@@ -138,7 +138,17 @@ var InvoicesPage = /** @class */ (function () {
     }
     InvoicesPage.prototype.ngOnInit = function () {
         // Load all invoices
-        this._DB.readAllInvoice().catch(function (e) { return console.log(e); });
+        // this._DB.readAllInvoice().catch(e => console.log(e))
+    };
+    InvoicesPage.prototype.ionViewDidEnter = function () {
+        var _this = this;
+        // Load all invoices
+        this._DB.readAllInvoice()
+            .then(function (data) {
+            console.log("this data will be invoices: ", data);
+            _this.invoices = data;
+            console.log("From invoices page total invoices are: ", _this.invoices);
+        }).catch(function (e) { return console.log(e); });
     };
     InvoicesPage.prototype.showInvoice = function (invObj) {
         console.log("Tapped Value: ", invObj);

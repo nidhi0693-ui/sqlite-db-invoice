@@ -66,7 +66,17 @@ export class InvoicesPage implements OnInit {
 
   ngOnInit() { 
     // Load all invoices
-    this._DB.readAllInvoice().catch(e => console.log(e))
+    // this._DB.readAllInvoice().catch(e => console.log(e))
+  }
+
+  ionViewDidEnter() {
+    // Load all invoices
+    this._DB.readAllInvoice()
+      .then((data: any) => {
+        console.log("this data will be invoices: ", data)
+        this.invoices = data
+        console.log("From invoices page total invoices are: ", this.invoices)
+      }).catch(e => console.log(e))
   }
 
 

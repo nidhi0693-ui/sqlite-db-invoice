@@ -157,7 +157,7 @@ export class DatabaseProviderService {
       console.log("Data to Update from Database Service: ", prod)
       console.log(`On product id = ${prod.id} data will be updated and it is type of ${typeof(prod.id)}`)
 
-      return this._DB.executeSql(`UPDATE products SET name=?, price=?, tax=? WHERE id = ${prod.id}`, updatedProductData)
+      return this._DB.executeSql(`UPDATE products SET name=?, price=?, tax=? WHERE id = '${prod.id}'`, updatedProductData)
          .then((data) => {
             console.log("Product info get updated successfully with these data ", updatedProductData)
             this.readAllProduct()

@@ -989,9 +989,7 @@ var AppComponent = /** @class */ (function () {
                 _this.tables.forEach(function (data) {
                     _this._DB.dataExistsCheck(data).then(function (res) {
                         if (res != 0) {
-                            _this._DB.readAllInvoice().then(function () {
-                                _this._DB.exportAsJSON();
-                            });
+                            console.log("Data is Available to Load ...");
                         }
                         else {
                             console.log("No Data Available to Load ...");
@@ -999,6 +997,10 @@ var AppComponent = /** @class */ (function () {
                     });
                 });
             });
+            // }).then(() => {
+            //    this._DB.readAllInvoice().then(() => {
+            //       this._DB.exportAsJSON();
+            //    })
         }).catch(function (e) { return console.log(e); });
     };
     AppComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
@@ -1014,6 +1016,9 @@ var AppComponent = /** @class */ (function () {
     return AppComponent;
 }());
 
+// this._DB.readAllInvoice().then(() => {
+//    this._DB.exportAsJSON();
+// })
 
 
 /***/ }),
@@ -1391,7 +1396,7 @@ var DatabaseProviderService = /** @class */ (function () {
         var updatedProductData = [prod.name, prod.price, prod.tax];
         console.log("Data to Update from Database Service: ", prod);
         console.log("On product id = " + prod.id + " data will be updated and it is type of " + typeof (prod.id));
-        return this._DB.executeSql("UPDATE products SET name=?, price=?, tax=? WHERE id = " + prod.id, updatedProductData)
+        return this._DB.executeSql("UPDATE products SET name=?, price=?, tax=? WHERE id = '" + prod.id + "'", updatedProductData)
             .then(function (data) {
             console.log("Product info get updated successfully with these data ", updatedProductData);
             _this.readAllProduct();
