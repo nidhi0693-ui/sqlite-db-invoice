@@ -3,6 +3,7 @@ import { ActivatedRoute, Router, NavigationExtras } from '@angular/router';
 import { DatabaseProviderService } from '../services/database-provider.service';
 import { PopoverController } from '@ionic/angular';
 import { PopoverPage } from './popover/popover.page';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-items',
@@ -28,7 +29,8 @@ export class ItemsPage implements OnInit {
     private _DB: DatabaseProviderService,
     private _route: ActivatedRoute,
     private _router: Router,
-    private _PC: PopoverController
+    private _PC: PopoverController,
+    private _location: Location
   ) {
     this._route.queryParams.subscribe(params => {
       if (this._router.getCurrentNavigation().extras.state) {
@@ -50,6 +52,11 @@ export class ItemsPage implements OnInit {
   }
 
   ngOnInit() { }
+
+  // Get the history of navigation stack so that it should navigate back to last viewed page
+  backButtonAction() {
+    this._location.back()
+  }
 
   // Create PopOver to get more options for user
   async moreOptions(ev: any) {

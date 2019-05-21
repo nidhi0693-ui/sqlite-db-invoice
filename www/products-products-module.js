@@ -116,12 +116,15 @@ var ProductsPage = /** @class */ (function () {
                 console.log("Data recived from " + _this.dataRecieved.pageName + " Page and content is " + _this.dataRecieved.content);
             }
         });
+    }
+    ProductsPage.prototype.ngOnInit = function () { };
+    // In order to load updated data every time when page gets loaded
+    ProductsPage.prototype.ionViewWillEnter = function () {
         this.loadProducts();
         this._products.map(function (data) {
             data.hasSelected = false;
         });
-    }
-    ProductsPage.prototype.ngOnInit = function () { };
+    };
     // Load the Products from Database
     ProductsPage.prototype.loadProducts = function () {
         var _this = this;

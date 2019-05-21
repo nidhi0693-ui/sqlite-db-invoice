@@ -58,7 +58,7 @@ var ItemsPageModule = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<ion-header>\n  <ion-toolbar color=\"secondary\">\n    <ion-buttons slot=\"start\">\n      <ion-back-button mode=\"md\" defaultHref=\"invoices\"></ion-back-button>\n    </ion-buttons>\n      <ion-buttons slot=\"end\">\n        <ion-button mode=\"md\" (click)=\"moreOptions($event)\">\n          <ion-icon slot=\"icon-only\" name=\"more\"></ion-icon>\n        </ion-button>\n      </ion-buttons>\n    <ion-title>Invoice Creation</ion-title>\n  </ion-toolbar>\n</ion-header>\n\n<ion-content>\n  <ion-item lines=\"full\">\n    <ion-grid>\n        <ion-row>\n            <ion-col size=\"4\" text-start><strong><small>Product Name</small></strong></ion-col>\n            <ion-col size=\"2\" text-end><strong><small>Qty.</small></strong></ion-col>\n            <ion-col size=\"2\" text-end><strong><small>Price (Rs.)</small></strong></ion-col>\n            <ion-col size=\"2\" text-end><strong><small>Tax (%)</small></strong></ion-col>\n            <ion-col size=\"2\" text-end><strong><small>Total (Rs.)</small></strong></ion-col>\n          </ion-row>\n    </ion-grid>\n  </ion-item>\n\n  <ion-list *ngIf=\"hideOrShow === false\">\n\n    <ion-item-sliding *ngFor=\"let item of _dataRecived; let i=index;\">\n        <!-- | orderBy: order:'case-insensitive' -->\n\n      <ion-item mode=\"md\" lines=\"full\">\n        <ion-grid>\n            <ion-row>\n                <ion-col size=\"4\" text-start>{{item.name}}</ion-col>\n                <ion-col size=\"2\" text-end>\n                    <ion-input type=\"number\" [(ngModel)]=\"item.quantity\" (ionChange)=\"getQuantity($event, item, i)\" debounce=\"500\"></ion-input>\n                </ion-col>\n                <ion-col size=\"2\" text-end>{{item.price}}</ion-col>\n                <ion-col size=\"2\" text-end>{{item.tax}}</ion-col>\n                <ion-col size=\"2\" text-end>{{item.total}}</ion-col>\n              </ion-row>\n        </ion-grid>\n      </ion-item>\n\n      <ion-item-options side=\"end\">\n        <ion-item-option (click)=\"removeFromList()\">\n          <ion-icon slot=\"icon-only\" name=\"trash\"></ion-icon>\n        </ion-item-option>\n      </ion-item-options>\n\n    </ion-item-sliding>\n\n  </ion-list>\n\n</ion-content>\n\n<ion-footer>\n  <ion-toolbar>\n    <ion-grid>\n      <ion-row>\n        <ion-col size=\"7\" text-start>\n          <strong>Total Ammount: </strong>\n        </ion-col>\n        <ion-col size=\"5\" text-end>\n          <strong>{{ billedAmt }}</strong>\n        </ion-col>\n      </ion-row>\n      <ion-row>\n        <ion-col>\n          <ion-button color=\"secondary\" expand=\"block\" (click)=\"generateNewInvoice()\">Generate Invoice</ion-button>\n        </ion-col>\n      </ion-row>\n    </ion-grid>\n  </ion-toolbar>\n</ion-footer>"
+module.exports = "<ion-header>\n  <ion-toolbar color=\"secondary\">\n    <ion-buttons slot=\"start\">\n      <ion-button mode=\"md\" (click)=\"backButtonAction()\">\n        <ion-icon slot=\"icon-only\" name=\"arrow-back\"></ion-icon>\n      </ion-button>\n      <!-- defaultHref=\"invoices\" -->\n    </ion-buttons>\n      <ion-buttons slot=\"end\">\n        <ion-button mode=\"md\" (click)=\"moreOptions($event)\">\n          <ion-icon slot=\"icon-only\" name=\"more\"></ion-icon>\n        </ion-button>\n      </ion-buttons>\n    <ion-title>Invoice Creation</ion-title>\n  </ion-toolbar>\n</ion-header>\n\n<ion-content>\n  <ion-item lines=\"full\">\n    <ion-grid>\n        <ion-row>\n            <ion-col size=\"4\" text-start><strong><small>Product Name</small></strong></ion-col>\n            <ion-col size=\"2\" text-end><strong><small>Qty.</small></strong></ion-col>\n            <ion-col size=\"2\" text-end><strong><small>Price (Rs.)</small></strong></ion-col>\n            <ion-col size=\"2\" text-end><strong><small>Tax (%)</small></strong></ion-col>\n            <ion-col size=\"2\" text-end><strong><small>Total (Rs.)</small></strong></ion-col>\n          </ion-row>\n    </ion-grid>\n  </ion-item>\n\n  <ion-list *ngIf=\"hideOrShow === false\">\n\n    <ion-item-sliding *ngFor=\"let item of _dataRecived; let i=index;\">\n        <!-- | orderBy: order:'case-insensitive' -->\n\n      <ion-item mode=\"md\" lines=\"full\">\n        <ion-grid>\n            <ion-row>\n                <ion-col size=\"4\" text-start>{{item.name}}</ion-col>\n                <ion-col size=\"2\" text-end>\n                    <ion-input type=\"number\" [(ngModel)]=\"item.quantity\" (ionChange)=\"getQuantity($event, item, i)\" debounce=\"500\"></ion-input>\n                </ion-col>\n                <ion-col size=\"2\" text-end>{{item.price}}</ion-col>\n                <ion-col size=\"2\" text-end>{{item.tax}}</ion-col>\n                <ion-col size=\"2\" text-end>{{item.total}}</ion-col>\n              </ion-row>\n        </ion-grid>\n      </ion-item>\n\n      <ion-item-options side=\"end\">\n        <ion-item-option (click)=\"removeFromList()\">\n          <ion-icon slot=\"icon-only\" name=\"trash\"></ion-icon>\n        </ion-item-option>\n      </ion-item-options>\n\n    </ion-item-sliding>\n\n  </ion-list>\n\n</ion-content>\n\n<ion-footer>\n  <ion-toolbar>\n    <ion-grid>\n      <ion-row>\n        <ion-col size=\"7\" text-start>\n          <strong>Total Ammount: </strong>\n        </ion-col>\n        <ion-col size=\"5\" text-end>\n          <strong>{{ billedAmt }}</strong>\n        </ion-col>\n      </ion-row>\n      <ion-row>\n        <ion-col>\n          <ion-button color=\"secondary\" expand=\"block\" (click)=\"generateNewInvoice()\">Generate Invoice</ion-button>\n        </ion-col>\n      </ion-row>\n    </ion-grid>\n  </ion-toolbar>\n</ion-footer>"
 
 /***/ }),
 
@@ -89,6 +89,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _services_database_provider_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../services/database-provider.service */ "./src/app/services/database-provider.service.ts");
 /* harmony import */ var _ionic_angular__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @ionic/angular */ "./node_modules/@ionic/angular/dist/fesm5.js");
 /* harmony import */ var _popover_popover_page__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./popover/popover.page */ "./src/app/items/popover/popover.page.ts");
+/* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @angular/common */ "./node_modules/@angular/common/fesm5/common.js");
+
 
 
 
@@ -96,12 +98,13 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var ItemsPage = /** @class */ (function () {
-    function ItemsPage(_DB, _route, _router, _PC) {
+    function ItemsPage(_DB, _route, _router, _PC, _location) {
         var _this = this;
         this._DB = _DB;
         this._route = _route;
         this._router = _router;
         this._PC = _PC;
+        this._location = _location;
         this._dataRecived = null;
         this.sendToInvoices = [];
         this.composeData = {};
@@ -123,6 +126,10 @@ var ItemsPage = /** @class */ (function () {
         console.log("Id Generated for new Items: ", this.itemId);
     }
     ItemsPage.prototype.ngOnInit = function () { };
+    // Get the history of navigation stack so that it should navigate back to last viewed page
+    ItemsPage.prototype.backButtonAction = function () {
+        this._location.back();
+    };
     // Create PopOver to get more options for user
     ItemsPage.prototype.moreOptions = function (ev) {
         return tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"](this, void 0, void 0, function () {
@@ -210,7 +217,8 @@ var ItemsPage = /** @class */ (function () {
         tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_services_database_provider_service__WEBPACK_IMPORTED_MODULE_3__["DatabaseProviderService"],
             _angular_router__WEBPACK_IMPORTED_MODULE_2__["ActivatedRoute"],
             _angular_router__WEBPACK_IMPORTED_MODULE_2__["Router"],
-            _ionic_angular__WEBPACK_IMPORTED_MODULE_4__["PopoverController"]])
+            _ionic_angular__WEBPACK_IMPORTED_MODULE_4__["PopoverController"],
+            _angular_common__WEBPACK_IMPORTED_MODULE_6__["Location"]])
     ], ItemsPage);
     return ItemsPage;
 }());

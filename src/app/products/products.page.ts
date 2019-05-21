@@ -32,14 +32,17 @@ export class ProductsPage implements OnInit {
         console.log(`Data recived from ${this.dataRecieved.pageName} Page and content is ${this.dataRecieved.content}`)
       }
     })
+  }
 
+  ngOnInit() { }
+
+  // In order to load updated data every time when page gets loaded
+  ionViewWillEnter() {
     this.loadProducts();
     this._products.map((data) => {
       data.hasSelected = false
     })
   }
-
-  ngOnInit() { }
 
   // Load the Products from Database
   loadProducts() {

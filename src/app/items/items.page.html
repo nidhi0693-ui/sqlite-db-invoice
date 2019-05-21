@@ -1,7 +1,10 @@
 <ion-header>
   <ion-toolbar color="secondary">
     <ion-buttons slot="start">
-      <ion-back-button mode="md" defaultHref="invoices"></ion-back-button>
+      <ion-button mode="md" (click)="backButtonAction()">
+        <ion-icon slot="icon-only" name="arrow-back"></ion-icon>
+      </ion-button>
+      <!-- defaultHref="invoices" -->
     </ion-buttons>
       <ion-buttons slot="end">
         <ion-button mode="md" (click)="moreOptions($event)">
